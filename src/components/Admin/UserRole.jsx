@@ -1,0 +1,69 @@
+import { useState } from "react";
+import axios from "axios";
+
+const UserRole = () => {
+  const [userId, setUserId] = useState("");
+  const [role, setRole] = useState("");
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
+
+  const token = localStorage.getItem("token");
+
+  const handleUpdateRole = async () => {
+    try {
+      const response = await axios.post(
+        `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/update-user-role/${userId}`,
+        { role },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+          },
+        }
+      );
+      setSuccess(`Berhasil update Role user ${userId} jadi ${role}`);
+      setError("");
+    } catch (err) {
+      console.error(err.response.data);
+      setError(err.response.data.message);
+      setSuccess("");
+    }
+  };
+
+  return (
+    <div className="p-4 border rounded shadow-md w-fit">
+      <h2 className="mb-2 text-lg font-semibold">Update User Role</h2>
+
+      <label>User ID:</label>
+      <input
+        type="text"
+        value={userId}
+        onChange={(e) => setUserId(e.target.value)}
+        placeholder="Masukkan user ID"
+        className="block p-1 mb-2 border"
+      />
+
+      <label>Role:</label>
+      <select
+        value={role}
+        onChange={(e) => setRole(e.target.value)}
+        className="block p-1 mb-2 border"
+      >
+        <option value="user">user</option>
+        <option value="admin">admin</option>
+      </select>
+
+      <button
+        onClick={handleUpdateRole}
+        className="px-4 py-1 text-white bg-blue-500 rounded"
+      >
+        Update Role
+      </button>
+
+      {success && <p className="mt-2 text-green-600">{success}</p>}
+      {error && <p className="mt-2 text-red-600">{error}</p>}
+    </div>
+  );
+};
+
+export default UserRole;
