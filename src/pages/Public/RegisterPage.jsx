@@ -88,18 +88,14 @@ function RegisterPage() {
 
       <div className="flex items-center justify-center min-h-screen px-4 ">
         <div className="w-full max-w-md p-6 shadow-lg bg-white/60 backdrop-blur-md rounded-xl">
-          {success && (
-            <p className="mb-2 font-semibold text-center text-green-700">
-              {success}
-            </p>
-          )}
-          {error && !success.length && (
-            <p className="mb-2 font-semibold text-center text-red-600">
-              {error}
-            </p>
-          )}
-
           <form className="flex flex-col gap-1" onSubmit={handleRegister}>
+            <h1 className="-mt-2 text-2xl font-bold text-center">Register</h1>
+            {success && (
+              <p className="mb-1 font-semibold text-green-700">{success}</p>
+            )}
+            {error && !success.length && (
+              <p className="mb-1 font-semibold text-red-600">{error}</p>
+            )}
             <label htmlFor="name">Name:</label>
             <input
               type="text"

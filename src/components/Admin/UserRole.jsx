@@ -31,37 +31,46 @@ const UserRole = () => {
   };
 
   return (
-    <div className="p-4 border rounded shadow-md w-fit">
-      <h2 className="mb-2 text-lg font-semibold">Update User Role</h2>
+    <div>
+      <div className="flex items-center justify-center mt-40">
+        <div className="p-4 border rounded shadow-md w-80 h-80">
+          <h2 className="mb-8 text-2xl font-semibold text-center">
+            Update User Role
+          </h2>
 
-      <label>User ID:</label>
-      <input
-        type="text"
-        value={userId}
-        onChange={(e) => setUserId(e.target.value)}
-        placeholder="Masukkan user ID"
-        className="block p-1 mb-2 border"
-      />
+          <div>
+            <label className="mt-8">User ID:</label>
+            <input
+              type="text"
+              value={userId}
+              onChange={(e) => setUserId(e.target.value)}
+              placeholder="Masukkan user ID"
+              className="block w-full p-1 mb-2 border"
+            />
 
-      <label>Role:</label>
-      <select
-        value={role}
-        onChange={(e) => setRole(e.target.value)}
-        className="block p-1 mb-2 border"
-      >
-        <option value="user">user</option>
-        <option value="admin">admin</option>
-      </select>
+            <label className="mt-8">Role:</label>
+            <select
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="block w-full p-1 mb-2 border"
+              s
+            >
+              <option value="user">user</option>
+              <option value="admin">admin</option>
+            </select>
 
-      <button
-        onClick={handleUpdateRole}
-        className="px-4 py-1 text-white bg-blue-500 rounded"
-      >
-        Update Role
-      </button>
+            <button
+              onClick={handleUpdateRole}
+              className="px-4 py-1 mt-5 text-white bg-blue-500 rounded"
+            >
+              Update Role
+            </button>
+          </div>
 
-      {success && <p className="mt-2 text-green-600">{success}</p>}
-      {error && <p className="mt-2 text-red-600">{error}</p>}
+          {success && <p className="mt-2 text-green-600">{success}</p>}
+          {error && <p className="mt-2 text-red-600">{error}</p>}
+        </div>
+      </div>
     </div>
   );
 };

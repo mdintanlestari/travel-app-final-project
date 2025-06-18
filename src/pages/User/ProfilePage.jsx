@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Logout from "../../components/Logout";
-import { Link } from "react-router-dom";
+import Navbar from "../../components/Navbar";
+import background from "../../assets/img/profilepage/background.jpg";
 
 const ProfilePage = () => {
   const [user, setUser] = useState("");
@@ -27,7 +27,7 @@ const ProfilePage = () => {
       } catch (error) {
         console.log(
           "Gagal ambil data user:",
-          error.response?.data || error.message
+          error.response.data || error.message
         );
       }
     };
@@ -35,25 +35,42 @@ const ProfilePage = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Profile</h1>
-      {user ? (
-        <div>
-          <p>Nama: {user.name}</p>
-          <p>Email: {user.email}</p>
-          <p>Role: {user.role}</p>
-          <p>Phone Number: {user.phoneNumber}</p>
-          <img
-            src={user.profilePictureUrl}
-            alt="Profile"
-            style={{ width: "150px", height: "150px", borderRadius: "50%" }}
-          />
-        </div>
-      ) : (
-        <p>Loading data user...</p>
-      )}
-      <Link to={"/allUsers"}> All Users</Link>
-      <Logout />
+    <div className="relative ">
+      <div
+        className="absolute inset-0 min-h-screen bg-center bg-cover -z-10"
+        style={{ backgroundImage: `url(${background})` }}
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-60" />
+      </div>
+
+      <div className="relative z-20">
+        <Navbar />
+      </div>
+
+      <div className="relative z-10 flex items-center justify-center min-h-screen px-4 -mt-14">
+        {user ? (
+          <div className="w-full max-w-lg p-6 mx-auto overflow-hidden transition duration-300 bg-white shadow-lg rounded-2xl hover:shadow-2xl">
+            <h1 className="mb-4 text-2xl font-bold text-center text-gray-800">
+              Profile
+            </h1>
+            <div className="flex flex-col items-center space-y-4">
+              <img
+                src={user.profilePictureUrl}
+                alt="Profile"
+                className="object-cover border-4 border-white rounded-full shadow-md w-36 h-36"
+              />
+              <p className="text-lg font-medium text-gray-700">
+                Nama: {user.name}
+              </p>
+              <p className="text-gray-600">Email: {user.email}</p>
+              <p className="text-gray-600">Role: {user.role}</p>
+              <p className="text-gray-600">Phone Number: {user.phoneNumber}</p>
+            </div>
+          </div>
+        ) : (
+          <p className="text-xl text-white">Loading data user...</p>
+        )}
+      </div>
     </div>
   );
 };

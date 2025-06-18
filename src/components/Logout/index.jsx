@@ -1,14 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const Logout = () => {
   const navigate = useNavigate();
-  const [success, setSuccsess] = useState("");
+  const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
   const handleLogout = async () => {
     const token = localStorage.getItem("token");
+    console.log("Token yang dikirim:", token);
+
+    if (!token) {
+      toast.error("Token tidak ditemukan, silakan login ulang.");
+      return;
+    }
 
     try {
       const response = await axios.get(
@@ -20,30 +27,26 @@ const Logout = () => {
           },
         }
       );
-      setSuccsess("Logout Success");
-      console.log(response.data);
 
-      // hapus token dari local storage
+      console.log("Respon logout:", response.data);
+
       localStorage.removeItem("token");
+      setSuccess("Berhasil logout");
+      toast.success("Berhasil logout");
 
       setTimeout(() => {
-        navigate("/login");
+        navigate("/");
       }, 2000);
     } catch (error) {
-      setError(error.response.data.message);
-      console.log(error.response);
+      const errorMsg = error?.response?.data?.message || "Logout gagal";
+      setError(errorMsg);
+      toast.error(errorMsg);
+      console.error("Logout error:", error);
     }
   };
 
   return (
     <div>
-      {success && (
-        <p className="mb-2 text-lg font-semibold text-green-700">{success}</p>
-      )}
-      {error && !success.length && (
-        <p className="mb-2 text-lg font-semibold text-red-600">{error}</p>
-      )}
-
       <button onClick={handleLogout} type="button">
         Logout
       </button>

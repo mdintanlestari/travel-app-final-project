@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import photo from "../../assets/img/userrole/photo.jpg";
 
 const AllUsersPage = () => {
   const [users, setUsers] = useState([]);
@@ -18,7 +19,6 @@ const AllUsersPage = () => {
             },
           }
         );
-        console.log(response.data.data);
         setUsers(response.data.data);
       } catch (error) {
         console.log("gagal mengambil semua user:", error);
@@ -28,26 +28,32 @@ const AllUsersPage = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Daftar Users</h1>
-      <ul>
-        {users.map((user) => {
-          return (
-            <li key={user.id}>
-              <p>Id: {user.id}</p>
-              <p>Nama: {user.name}</p>
-              <p>Email: {user.email}</p>
-              <p>Role: {user.role}</p>
-              <p>Phone Number: {user.phoneNumber}</p>
-              <img
-                src={user.profilePictureUrl}
-                alt="Profile"
-                style={{ width: "150px", height: "150px", borderRadius: "50%" }}
-              />
-            </li>
-          );
-        })}
-      </ul>
+    <div className="p-6 mx-auto max-w-7xl">
+      <h1 className="mb-6 text-3xl font-bold text-center">Daftar Users</h1>
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {users.map((user) => (
+          <div
+            key={user.id}
+            className="p-4 transition bg-white rounded-lg shadow hover:shadow-lg"
+          >
+            <img
+              src={user.profilePictureUrl}
+              alt="Profile"
+              className="object-cover w-32 h-32 mx-auto mb-4 rounded-full"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = photo;
+              }}
+            />
+            <div className="text-center">
+              <p className="text-lg font-semibold">{user.name}</p>
+              <p className="text-sm text-gray-600">{user.email}</p>
+              <p className="text-sm">Role: {user.role}</p>
+              <p className="text-sm">Phone: {user.phoneNumber}</p>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
