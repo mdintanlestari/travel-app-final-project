@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import AddToCartButton from "../../components/User/AddToCartButton";
 
 const PromoDetail = () => {
   const { id } = useParams();
@@ -65,6 +66,7 @@ const PromoDetail = () => {
           Minimum Belanja: {formatRupiah(promo.minimum_claim_price)}
         </p>
       </div>
+      <AddToCartButton />
     </div>
   );
 };

@@ -13,52 +13,90 @@ import { Autoplay, Pagination, EffectFade } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
+import CategorySwiper from "../../components/Public/CategorySwiper";
+import Footer from "./Footer";
+import ClientReviews from "../../components/Public/ClientReview";
 
 const LandingPage = () => {
   const [promos, setPromos] = useState([]);
   const [banners, setBanners] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [activities, setActivities] = useState([]);
   const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    const fetchBanners = async () => {
-      try {
-        const res = await axios.get(
-          "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/banners",
-          {
-            headers: {
-              apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setBanners(res.data.data);
-      } catch (err) {
-        console.error("Gagal memuat banner", err);
-      }
-    };
+  const fetchBanners = async () => {
+    try {
+      const res = await axios.get(
+        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/banners",
+        {
+          headers: {
+            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setBanners(res.data.data);
+    } catch (err) {
+      console.error("Gagal memuat banner", err);
+    }
+  };
 
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(
+        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/categories",
+        {
+          headers: {
+            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setCategories(response.data.data);
+    } catch (error) {
+      console.error("Gagal mengambil kategori:", error);
+    }
+  };
+
+  const fetchActivities = async () => {
+    try {
+      const response = await axios.get(
+        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/activities",
+        {
+          headers: {
+            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setActivities(response.data.data);
+    } catch (error) {
+      console.error("Gagal mengambil aktivitas:", error);
+    }
+  };
+
+  const fetchPromos = async () => {
+    try {
+      const response = await axios.get(
+        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/promos",
+        {
+          headers: {
+            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setPromos(response.data.data);
+    } catch (error) {
+      console.error("Gagal mengambil promo:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchBanners();
-  }, []);
-
-  useEffect(() => {
-    const fetchPromos = async () => {
-      try {
-        const response = await axios.get(
-          "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/promos",
-          {
-            headers: {
-              apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setPromos(response.data.data);
-      } catch (error) {
-        console.error("Gagal mengambil promo:", error);
-      }
-    };
-
     fetchPromos();
+    fetchCategories();
+    fetchActivities();
   }, []);
 
   const formatRupiah = (num) => {
@@ -77,11 +115,11 @@ const LandingPage = () => {
         <Swiper
           key={banners.length}
           modules={[Autoplay, Pagination, EffectFade]}
-          autoplay={{ delay: 4000, disableOnInteraction: false }}
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
           pagination={{ clickable: true }}
           effect="fade"
           speed={2000}
-          loop
+          loop={banners.length > 1}
           className="w-full h-full"
         >
           {banners.map((banner) => (
@@ -155,9 +193,12 @@ const LandingPage = () => {
         </div>
       </div>
 
+      {/* CATEGORY SECTION */}
+      <CategorySwiper categories={categories} />
+
       {/* PROMO SECTION */}
       <div className="pt-20 mx-10">
-        <h1 className="mb-6 text-2xl font-bold">Promo Terbaik</h1>
+        <h1 className="mb-6 text-2xl font-bold">Promos</h1>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-7">
           {promos.slice(0, 4).map((promo) => (
             <div
@@ -186,6 +227,41 @@ const LandingPage = () => {
             See More Promo
           </Link>
         </div>
+      </div>
+
+      {/* ACTIVITY SECTION */}
+      <div className="pt-20 mx-10">
+        <h1 className="mb-6 text-2xl font-bold">Best Activity</h1>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-7">
+          {activities.slice(0, 4).map((activity) => (
+            <div
+              key={activity.id}
+              className="object-cover w-full p-2 transition-transform duration-300 bg-white rounded shadow hover:scale-105"
+            >
+              <Link to={`/detailactivity/${activity.id}`}>
+                <img
+                  src={activity.imageUrls}
+                  alt={activity.title}
+                  className="object-cover w-full h-40 "
+                />
+              </Link>
+              <h2 className="mt-2 text-lg font-semibold">{activity.title}</h2>
+            </div>
+          ))}
+        </div>
+        <div className="mt-6 text-right">
+          <Link
+            to={"/activity"}
+            className="inline-block px-6 py-2 text-white transition bg-green-400 rounded hover:bg-green-700"
+          >
+            See More Activity
+          </Link>
+        </div>
+      </div>
+
+      <div className="mt-20">
+        <ClientReviews />
+        <Footer />
       </div>
     </div>
   );

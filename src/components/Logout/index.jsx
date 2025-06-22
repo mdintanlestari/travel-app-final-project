@@ -36,7 +36,8 @@ const Logout = () => {
 
       setTimeout(() => {
         navigate("/");
-      }, 2000);
+        window.location.reload();
+      }, 1000);
     } catch (error) {
       const errorMsg = error?.response?.data?.message || "Logout gagal";
       setError(errorMsg);

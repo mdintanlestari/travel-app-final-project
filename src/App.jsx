@@ -31,6 +31,11 @@ import UpdateActivityPage from "./components/Admin/UpdateActivityPage";
 import ActivityList from "./components/Public/ActivityList";
 import ActivityDetail from "./pages/Public/ActivityDetail";
 import PaymentMethodPage from "./pages/Public/PaymentMethodPage";
+import CartPage from "./pages/User/CartPage";
+import CheckoutPage from "./pages/User/CheckoutPage";
+import TransactionList from "./pages/User/TransactionList";
+import AllTransaction from "./pages/Admin/AllTransaction";
+import DetailTransaction from "./pages/User/DetailTransaction";
 
 function App() {
   return (
@@ -140,6 +145,14 @@ function App() {
             element={<ActivityDetail />}
           ></Route>
           <Route path="/paymentmethod" element={<PaymentMethodPage />}></Route>
+          <Route path="/cart" element={<CartPage />}></Route>
+          <Route path="/checkout" element={<CheckoutPage />}></Route>
+          <Route path="/mytransaction" element={<TransactionList />}></Route>
+          <Route path="/transactions" element={<AllTransaction />}></Route>
+          <Route
+            path="/detailtransaction/:id"
+            element={<DetailTransaction />}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </div>

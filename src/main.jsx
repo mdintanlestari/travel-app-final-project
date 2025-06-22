@@ -4,12 +4,15 @@ import { createRoot } from "react-dom/client";
 import { ToastContainer } from "react-toastify"; // ✅ import ini
 import "./index.css";
 import App from "./App.jsx";
+import { CartProvider } from "./context/CartContext";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <>
-      <App />
-      <ToastContainer position="top-right" autoClose={2000} />
-    </>
+    <CartProvider>
+      <>
+        <App />
+        <ToastContainer position="top-right" autoClose={2000} />
+      </>
+    </CartProvider>
   </StrictMode>
 );

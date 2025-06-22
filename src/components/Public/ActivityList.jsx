@@ -2,12 +2,22 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Navbar from "../Navbar";
 import { Link } from "react-router-dom";
+import Footer from "../../pages/Public/Footer";
 
 const ActivityList = () => {
-  const [activities, setactivities] = useState([]);
+  const [activities, setActivities] = useState([]);
+  const [filteredActivities, setFilteredActivities] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    fetchCategories();
+    fetchActivity();
+  }, []);
 
   const fetchActivity = async () => {
     try {
@@ -20,9 +30,10 @@ const ActivityList = () => {
           },
         }
       );
-      setactivities(res.data.data);
+      setActivities(res.data.data);
+      setFilteredActivities(res.data.data);
     } catch (err) {
-      console.error("Gagal memuat activitas:", err);
+      console.error("Gagal memuat aktivitas:", err);
     }
   };
 
@@ -39,7 +50,7 @@ const ActivityList = () => {
       );
       setCategories(res.data.data);
     } catch (err) {
-      console.error("Gagal memuat activitas:", err);
+      console.error("Gagal memuat kategori:", err);
     }
   };
 
@@ -54,54 +65,90 @@ const ActivityList = () => {
           },
         }
       );
-      setactivities(res.data.data);
+      setActivities(res.data.data);
+      setFilteredActivities(res.data.data);
+      setSearchTerm("");
     } catch (err) {
-      console.error("Gagal memuat activitas:", err);
+      console.error("Gagal memuat aktivitas:", err);
     }
   };
 
-  useEffect(() => {
-    fetchCategories();
-    fetchActivity();
-  }, []);
+  const handleSearch = (e) => {
+    const keyword = e.target.value.toLowerCase();
+    setSearchTerm(keyword);
+    const filtered = activities.filter((item) =>
+      item.title.toLowerCase().includes(keyword)
+    );
+    setFilteredActivities(filtered);
+    setCurrentPage(1);
+  };
+
+  // Pagination
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredActivities.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+  const totalPages = Math.ceil(filteredActivities.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div>
       <Navbar />
-      <div className="max-w-5xl p-6 mx-auto ">
-        <h2 className="mb-4 text-2xl font-bold text-center">
+      <div className="max-w-6xl p-6 mx-auto">
+        <h2 className="mb-6 text-2xl font-bold text-center">
           Daftar Aktivitas
         </h2>
 
-        <div className="grid grid-cols-2">
-          <div>
-            <h3>filter by category</h3>
-            <label>
+        {/* Search Bar */}
+        <div className="flex items-end justify-end mb-4 mt-14">
+          <input
+            type="text"
+            placeholder="Cari aktivitas..."
+            className="w-[60vh] px-4 py-2 border border-black rounded  shadow-sm"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+        </div>
+
+        {/* Filter by category */}
+        <div className="mb-4">
+          <h3 className="mb-2 font-semibold">Filter by Category:</h3>
+          <label className="mr-4">
+            <input
+              type="radio"
+              name="category"
+              onChange={() => {
+                fetchActivity();
+              }}
+            />
+            <span className="ml-1">All</span>
+          </label>
+          {categories.map((category) => (
+            <label key={category.id} className="mr-4">
               <input
                 type="radio"
                 name="category"
-                onChange={() => fetchActivity()}
+                value={category.id}
+                onChange={() => fetchActivitiesByCategoryId(category.id)}
               />
-              All
+              <span className="ml-1 text-justify">{category.name}</span>
             </label>
+          ))}
+        </div>
 
-            {categories.map((category) => (
-              <div key={category.id}>
-                <label>
-                  <input
-                    type="radio"
-                    name="category"
-                    value={category.id}
-                    onChange={() => fetchActivitiesByCategoryId(category.id)}
-                  />{" "}
-                  {category.name}
-                </label>
-              </div>
-            ))}
-          </div>
-
+        {/* Activity Grid */}
+        {currentItems.length === 0 ? (
+          <p className="mt-8 text-center text-gray-500">
+            Aktivitas yang dicari tidak tersedia.
+          </p>
+        ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-            {activities.map((activity) => (
+            {currentItems.map((activity) => (
               <div
                 key={activity.id}
                 className="overflow-hidden transition bg-white rounded shadow hover:shadow-md"
@@ -135,9 +182,30 @@ const ActivityList = () => {
               </div>
             ))}
           </div>
-        </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center mt-6 space-x-2">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i + 1}
+                className={`px-3 py-1 border rounded ${
+                  currentPage === i + 1
+                    ? "bg-blue-600 text-white"
+                    : "bg-white text-gray-700"
+                }`}
+                onClick={() => handlePageChange(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
+      <Footer />
     </div>
   );
 };
+
 export default ActivityList;

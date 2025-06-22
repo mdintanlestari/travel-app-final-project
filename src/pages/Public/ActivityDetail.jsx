@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import AddToCartButton from "../../components/User/AddToCartButton";
 
 const ActivityDetail = () => {
   const { id } = useParams();
@@ -65,6 +66,7 @@ const ActivityDetail = () => {
         {activity.province}, {activity.city}
       </p>
       <div dangerouslySetInnerHTML={{ __html: activity.location_maps }} />
+      <AddToCartButton activityId={activity.id} />
     </div>
   );
 };
