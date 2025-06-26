@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import paris from "../../assets/img/category/paris.jpg";
 import Navbar from "../Navbar";
+import Footer from "../../pages/Public/Footer";
 
 const PromoList = () => {
   const [promos, setPromos] = useState([]);
@@ -32,7 +33,7 @@ const PromoList = () => {
   return (
     <div>
       <Navbar />
-      <div className="max-w-6xl px-4 py-8 mx-auto">
+      <div className="max-w-6xl px-4 py-8 mx-auto mt-20">
         <h2 className="mb-8 text-3xl font-bold text-center text-gray-800">
           Daftar Promo
         </h2>
@@ -62,6 +63,7 @@ const PromoList = () => {
           ))}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

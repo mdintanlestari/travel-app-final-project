@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import paris from "../../assets/img/category/paris.jpg";
 import Navbar from "../Navbar";
+import Footer from "../../pages/Public/Footer";
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
@@ -34,7 +35,7 @@ const CategoryList = () => {
     <div>
       <Navbar />
 
-      <div className="max-w-5xl p-6 mx-auto">
+      <div className="max-w-5xl p-6 mx-auto mt-20">
         {/* Search Bar */}
         <div className="px-6 py-4 ">
           <input
@@ -82,6 +83,7 @@ const CategoryList = () => {
             ))}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

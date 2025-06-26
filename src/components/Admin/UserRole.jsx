@@ -1,19 +1,18 @@
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const UserRole = () => {
   const [userId, setUserId] = useState("");
   const [role, setRole] = useState("");
-  const [success, setSuccess] = useState("");
-  const [error, setError] = useState("");
 
   const token = localStorage.getItem("token");
 
-  const handleUpdateRole = async () => {
+  const handleUpdateRole = async (userId, newRole) => {
     try {
       const response = await axios.post(
         `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/update-user-role/${userId}`,
-        { role },
+        { role: newRole },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -21,11 +20,11 @@ const UserRole = () => {
           },
         }
       );
-      setSuccess(`Berhasil update Role user ${userId} jadi ${role}`);
+      toast.success(`Berhasil update Role user ${userId} jadi ${role}`);
       setError("");
     } catch (err) {
       console.error(err.response.data);
-      setError(err.response.data.message);
+      toast.error(err.response.data.message);
       setSuccess("");
     }
   };
@@ -66,9 +65,6 @@ const UserRole = () => {
               Update Role
             </button>
           </div>
-
-          {success && <p className="mt-2 text-green-600">{success}</p>}
-          {error && <p className="mt-2 text-red-600">{error}</p>}
         </div>
       </div>
     </div>

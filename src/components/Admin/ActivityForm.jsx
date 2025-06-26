@@ -2,9 +2,11 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import UploadImage from "../UploadImage";
 
 const ActivityForm = () => {
   const navigate = useNavigate();
+  const [imageUrl, setImageUrl] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -23,19 +25,21 @@ const ActivityForm = () => {
 
   const token = localStorage.getItem("token");
 
+  const handleImageUpload = (url) => {
+    setImageUrl(url);
+    console.log("URL dari upload imageUrl", url);
+
+    setFormData((prev) => ({
+      ...prev,
+      imageUrls: [url],
+    }));
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-    }));
-  };
-
-  const handleChangeImageUrls = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: [value],
     }));
   };
 
@@ -122,19 +126,6 @@ const ActivityForm = () => {
             className="w-full p-2 border rounded"
             required
           ></textarea>
-        </div>
-
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">URL Gambar</label>
-          <input
-            type="text"
-            name="imageUrls"
-            value={formData.imageUrls}
-            onChange={handleChangeImageUrls}
-            placeholder="Url Gambar"
-            className="w-full p-2 border rounded"
-            required
-          />
         </div>
 
         <div className="mb-4">
@@ -260,11 +251,24 @@ const ActivityForm = () => {
             className="w-full p-2 border rounded"
             required
           />
+          <UploadImage onUploadSuccess={handleImageUpload} />
+          {imageUrl && (
+            <img
+              src={imageUrl}
+              alt="Preview"
+              className="object-cover w-full h-48 mt-2 rounded"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src =
+                  "https://via.placeholder.com/300x200?text=Image+Error";
+              }}
+            />
+          )}
         </div>
 
         <button
           type="submit"
-          className="w-full py-2 font-semibold text-white bg-blue-600 rounded hover:bg-blue-700"
+          className="w-full py-2 mt-6 font-semibold text-white bg-blue-600 rounded hover:bg-blue-700"
         >
           Buat Activity
         </button>

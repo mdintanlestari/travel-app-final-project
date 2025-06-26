@@ -1,16 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useState } from "react";
 import { toast } from "react-toastify";
 
 const Logout = () => {
   const navigate = useNavigate();
-  const [success, setSuccess] = useState("");
-  const [error, setError] = useState("");
 
   const handleLogout = async () => {
     const token = localStorage.getItem("token");
-    console.log("Token yang dikirim:", token);
 
     if (!token) {
       toast.error("Token tidak ditemukan, silakan login ulang.");
@@ -31,7 +27,8 @@ const Logout = () => {
       console.log("Respon logout:", response.data);
 
       localStorage.removeItem("token");
-      setSuccess("Berhasil logout");
+      localStorage.removeItem("user");
+
       toast.success("Berhasil logout");
 
       setTimeout(() => {
@@ -40,18 +37,18 @@ const Logout = () => {
       }, 1000);
     } catch (error) {
       const errorMsg = error?.response?.data?.message || "Logout gagal";
-      setError(errorMsg);
       toast.error(errorMsg);
       console.error("Logout error:", error);
     }
   };
 
   return (
-    <div>
+    <div className="py-1 text-center text-white bg-black border rounded-md w-28 h-9 hover:bg-slate-500">
       <button onClick={handleLogout} type="button">
         Logout
       </button>
     </div>
   );
 };
+
 export default Logout;

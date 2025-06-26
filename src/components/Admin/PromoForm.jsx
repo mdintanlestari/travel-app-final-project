@@ -2,9 +2,11 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import UploadImage from "../UploadImage";
 
 const PromoForm = () => {
   const navigate = useNavigate();
+  const [imageUrl, setImageUrl] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -16,6 +18,10 @@ const PromoForm = () => {
   });
 
   const token = localStorage.getItem("token");
+  const handleImageUpload = (url) => {
+    setImageUrl(url);
+    console.log("URL dari upload imgaeUrl", url);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -102,19 +108,6 @@ const PromoForm = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block mb-1 font-medium">URL Gambar</label>
-          <input
-            type="text"
-            name="imageUrl"
-            value={formData.imageUrl}
-            onChange={handleChange}
-            placeholder="Url Gambar"
-            className="w-full p-2 border rounded"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
           <label className="block mb-1 font-medium">Syarat & Ketentuan</label>
           <textarea
             name="terms_condition"
@@ -165,6 +158,10 @@ const PromoForm = () => {
             className="w-full p-2 border rounded"
             required
           />
+        </div>
+        <div>
+          <UploadImage onUploadSuccess={handleImageUpload} />
+          {imageUrl && <p>Image berhasil di-upload ke: {imageUrl}</p>}
         </div>
 
         <button

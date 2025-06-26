@@ -3,11 +3,8 @@ import Navbar from "../../components/Navbar";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGlobe } from "@fortawesome/free-solid-svg-icons";
-import { faPercent } from "@fortawesome/free-solid-svg-icons";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { faGlobe, faPercent, faClock } from "@fortawesome/free-solid-svg-icons";
 
-// Swiper imports
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, EffectFade } from "swiper/modules";
 import "swiper/css";
@@ -146,7 +143,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 px-10 mx-6 mt-12 text-gray-700 bg-white border border-white shadow md:grid-cols-3 py-14 rounded-xl">
+      <div className="grid grid-cols-1 gap-8 px-6 mx-auto mt-12 text-gray-700 bg-white border border-white shadow md:grid-cols-3 py-14 rounded-xl max-w-7xl">
         {/* ITEM 1 */}
         <div className="flex items-start gap-4">
           <FontAwesomeIcon
@@ -194,12 +191,14 @@ const LandingPage = () => {
       </div>
 
       {/* CATEGORY SECTION */}
-      <CategorySwiper categories={categories} />
+      <div className="px-4 md:px-10">
+        <CategorySwiper categories={categories} />
+      </div>
 
       {/* PROMO SECTION */}
-      <div className="pt-20 mx-10">
+      <div className="px-4 pt-20 md:px-10">
         <h1 className="mb-6 text-2xl font-bold">Promos</h1>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-7">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7">
           {promos.slice(0, 4).map((promo) => (
             <div
               key={promo.id}
@@ -230,10 +229,10 @@ const LandingPage = () => {
       </div>
 
       {/* ACTIVITY SECTION */}
-      <div className="pt-20 mx-10">
+      <div className="px-4 pt-20 md:px-10">
         <h1 className="mb-6 text-2xl font-bold">Best Activity</h1>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-7">
-          {activities.slice(0, 4).map((activity) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7">
+          {activities.slice(3, 7).map((activity) => (
             <div
               key={activity.id}
               className="object-cover w-full p-2 transition-transform duration-300 bg-white rounded shadow hover:scale-105"

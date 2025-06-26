@@ -14,6 +14,16 @@ const CheckoutPage = () => {
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [selectedPayment, setSelectedPayment] = useState("");
 
+  useEffect(() => {
+    // Jika tidak ada item, redirect ke halaman cart
+    if (!selectedCartItems || selectedCartItems.length === 0) {
+      toast.warning("Keranjang kosong. Silakan pilih item terlebih dahulu.");
+      navigate("/cart");
+    }
+
+    fetchPaymentMethods();
+  }, []);
+
   const fetchPaymentMethods = async () => {
     try {
       const res = await axios.get(
@@ -36,13 +46,8 @@ const CheckoutPage = () => {
       return;
     }
 
-    if (cartIds.length === 0) {
-      toast.error("Tidak ada item yang dipilih");
-      return;
-    }
-
     try {
-      const response = await axios.post(
+      await axios.post(
         "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/create-transaction",
         {
           cartIds,
@@ -56,7 +61,18 @@ const CheckoutPage = () => {
         }
       );
 
-      const transactionId = response.data.data.id;
+      const res = await axios.get(
+        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/my-transactions",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+          },
+        }
+      );
+
+      const transactionId = res.data.data.reverse()[0].id;
+
       toast.success("Transaksi berhasil!");
       navigate(`/detailtransaction/${transactionId}`);
     } catch (err) {
@@ -65,42 +81,58 @@ const CheckoutPage = () => {
     }
   };
 
-  useEffect(() => {
-    fetchPaymentMethods();
-  }, []);
-
   return (
-    <div className="p-6">
-      <h1 className="mb-4 text-2xl font-bold">Checkout</h1>
+    <div className="max-w-3xl p-6 mx-auto mt-16 bg-white rounded-lg shadow">
+      <h1 className="mb-6 text-3xl font-bold text-center text-gray-800">
+        Checkout
+      </h1>
 
-      <h2 className="mb-2 font-semibold">Pilih Metode Pembayaran:</h2>
-      <div className="grid gap-3 mb-6">
-        {paymentMethods.map((method) => (
-          <label
-            key={method.id}
-            className={`border p-4 rounded flex items-center gap-3 cursor-pointer ${
-              selectedPayment === method.id ? "border-green-500" : ""
-            }`}
-          >
-            <input
-              type="radio"
-              name="payment"
-              value={method.id}
-              checked={selectedPayment === method.id}
-              onChange={() => setSelectedPayment(method.id)}
-            />
-            <img src={method.imageUrl} alt={method.name} className="w-12" />
-            {method.name}
-          </label>
-        ))}
-      </div>
+      {/* Hanya tampil jika ada item */}
+      {selectedCartItems?.length > 0 && (
+        <>
+          <h2 className="mb-4 text-lg font-semibold text-gray-700">
+            Pilih Metode Pembayaran:
+          </h2>
+          <div className="grid gap-4 mb-8 sm:grid-cols-2">
+            {paymentMethods.map((method) => (
+              <label
+                key={method.id}
+                className={`border p-4 rounded-lg flex items-center gap-4 cursor-pointer transition duration-300 hover:shadow ${
+                  selectedPayment === method.id
+                    ? "border-green-500 ring-2 ring-green-400"
+                    : "border-gray-300"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="payment"
+                  value={method.id}
+                  checked={selectedPayment === method.id}
+                  onChange={() => setSelectedPayment(method.id)}
+                  className="accent-green-600"
+                />
+                <img
+                  src={method.imageUrl}
+                  alt={method.name}
+                  className="object-contain w-14 h-14"
+                />
+                <span className="text-sm font-medium text-gray-800">
+                  {method.name}
+                </span>
+              </label>
+            ))}
+          </div>
 
-      <button
-        onClick={handleCheckout}
-        className="px-6 py-2 text-white bg-green-600 rounded"
-      >
-        Bayar Sekarang
-      </button>
+          <div className="text-center">
+            <button
+              onClick={handleCheckout}
+              className="px-8 py-3 text-white transition duration-200 bg-green-600 rounded-full hover:bg-green-700"
+            >
+              Bayar Sekarang
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

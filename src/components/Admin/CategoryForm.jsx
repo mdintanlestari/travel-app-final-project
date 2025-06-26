@@ -1,12 +1,18 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import UploadImage from "../UploadImage";
 
 const CategoryForm = () => {
   const [name, setName] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+
+  const handleImageUpload = (url) => {
+    setImageUrl(url);
+    console.log("URL dari upload imgaeUrl", url);
+  };
 
   const token = localStorage.getItem("token");
 
@@ -66,22 +72,15 @@ const CategoryForm = () => {
           <label className="block mb-1 text-sm font-medium text-gray-700">
             URL Gambar:
           </label>
-          <input
-            type="text"
-            placeholder="https://..."
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
+          <UploadImage onUploadSuccess={handleImageUpload} />
+          {imageUrl && <p>Image berhasil di-upload ke: {imageUrl}</p>}
         </div>
-
         <button
           type="submit"
-          className="w-full px-4 py-2 text-white transition bg-blue-600 rounded hover:bg-blue-700"
+          className="w-full px-4 py-2 mt-6 text-white transition bg-blue-600 rounded hover:bg-blue-700"
         >
           Buat Kategori
         </button>
-
         {message && (
           <p className="mt-4 text-sm font-medium text-center text-green-700">
             {message}

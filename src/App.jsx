@@ -2,9 +2,8 @@ import RegisterPage from "./pages/Public/RegisterPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/Public/LoginPage";
 import HomePage from "./pages/Public/HomePage";
-import ProfilePage from "./pages/User/ProfilePage";
 import AllUsersPage from "./pages/Admin/AllUsersPage";
-import ProfileForm from "./components/User/ProfileForm";
+import ProfilePage from "./components/User/ProfilePage";
 import UserRole from "./components/Admin/UserRole";
 import DashboardPage from "./pages/Admin/DashboardPage";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -30,12 +29,14 @@ import ManageActivity from "./pages/Admin/ManageActivity";
 import UpdateActivityPage from "./components/Admin/UpdateActivityPage";
 import ActivityList from "./components/Public/ActivityList";
 import ActivityDetail from "./pages/Public/ActivityDetail";
-import PaymentMethodPage from "./pages/Public/PaymentMethodPage";
 import CartPage from "./pages/User/CartPage";
 import CheckoutPage from "./pages/User/CheckoutPage";
 import TransactionList from "./pages/User/TransactionList";
 import AllTransaction from "./pages/Admin/AllTransaction";
 import DetailTransaction from "./pages/User/DetailTransaction";
+import UpdateTransactionStatus from "./components/Admin/UpdateTransactionStatus";
+import UploadImage from "./components/UploadImage";
+import ManageTransaction from "./pages/Admin/ManageTransactions";
 
 function App() {
   return (
@@ -45,114 +46,171 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
+          {/* Users routes */}
           <Route
             path="/profile"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRole="user">
                 <ProfilePage />
               </ProtectedRoute>
             }
-          ></Route>
+          />
           <Route
-            path="/allUsers"
+            path="/cart"
             element={
-              <ProtectedRoute>
-                <AllUsersPage />
+              <ProtectedRoute requiredRole="user">
+                <CartPage />
               </ProtectedRoute>
             }
-          ></Route>
+          />
           <Route
-            path="/updateprofile"
+            path="/checkout"
             element={
-              <ProtectedRoute>
-                <ProfileForm />
+              <ProtectedRoute requiredRole="user">
+                <CheckoutPage />
               </ProtectedRoute>
             }
-          ></Route>
+          />
           <Route
-            path="/userrole"
+            path="/mytransactions"
             element={
-              <ProtectedRoute>
-                <UserRole />
+              <ProtectedRoute requiredRole="user">
+                <TransactionList />
               </ProtectedRoute>
             }
-          ></Route>
+          />
           <Route
-            path="/dashboard"
+            path="/detailtransaction/:id"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRole="user">
+                <DetailTransaction />
+              </ProtectedRoute>
+            }
+          />
+          {/* Admin routes */}
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute requiredRole="admin">
                 <DashboardPage />
               </ProtectedRoute>
             }
-          ></Route>
-          <Route path="/admin/banner" element={<ManageBanner />}></Route>
-          <Route path="/banner" element={<BannerList />}></Route>
-          <Route path="/admin/createbanner" element={<BannerForm />}></Route>
+          >
+            <Route path="managebanner" element={<ManageBanner />} />
+            <Route path="managepromo" element={<ManagePromo />} />
+            <Route path="managecategory" element={<ManageCategory />} />
+            <Route path="manageactivity" element={<ManageActivity />} />
+            <Route path="managetransactions" element={<ManageTransaction />} />
+            <Route path="manageusers" element={<AllUsersPage />} />
+          </Route>
+          <Route
+            path="/admin/createbanner"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <BannerForm />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/admin/updatebanner/:id"
-            element={<UpdateBannerForm />}
-          ></Route>
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <UpdateBannerForm />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/admin/deletebanner/:id"
-            element={<DeleteBannerPage />}
-          ></Route>
-          <Route path="/detailbanner/:id" element={<BannerDetail />}></Route>
-          <Route path="/admin/managebanner" element={<ManageBanner />}></Route>
-          <Route path="/admin/createpromo" element={<PromoForm />}></Route>
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <DeleteBannerPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/createpromo"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <PromoForm />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/admin/updatepromo/:id"
-            element={<UpdatePromoForm />}
-          ></Route>
-          <Route path="/admin/managepromo" element={<ManagePromo />}></Route>
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <UpdatePromoForm />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/admin/deletepromo/:id"
-            element={<DeletePromoPage />}
-          ></Route>
-          <Route path="/promo" element={<PromoList />}></Route>
-          <Route path="/detailpromo/:id" element={<PromoDetail />}></Route>
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <DeletePromoPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/admin/createcategory"
-            element={<CategoryForm />}
-          ></Route>
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <CategoryForm />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/admin/updatecategory/:id"
-            element={<UpdateCategoryForm />}
-          ></Route>
-          <Route
-            path="/admin/managecategory"
-            element={<ManageCategory />}
-          ></Route>
-          <Route path="/category" element={<CategoryList />}></Route>
-          <Route
-            path="/detailcategory/:id"
-            element={<CategoryDetail />}
-          ></Route>
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <UpdateCategoryForm />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/admin/createactivity"
-            element={<ActivityForm />}
-          ></Route>
-          <Route
-            path="/admin/manageactivity"
-            element={<ManageActivity />}
-          ></Route>
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <ActivityForm />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/admin/updateactivity/:id"
-            element={<UpdateActivityPage />}
-          ></Route>
-          <Route path="/activity" element={<ActivityList />}></Route>
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <UpdateActivityPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
-            path="/detailactivity/:id"
-            element={<ActivityDetail />}
-          ></Route>
-          <Route path="/paymentmethod" element={<PaymentMethodPage />}></Route>
-          <Route path="/cart" element={<CartPage />}></Route>
-          <Route path="/checkout" element={<CheckoutPage />}></Route>
-          <Route path="/mytransaction" element={<TransactionList />}></Route>
-          <Route path="/transactions" element={<AllTransaction />}></Route>
+            path="/admin/updatestatus/:id"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <UpdateTransactionStatus />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/admin/transactions" element={<AllTransaction />} />
           <Route
-            path="/detailtransaction/:id"
-            element={<DetailTransaction />}
-          ></Route>
+            path="/userrole"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <UserRole />
+              </ProtectedRoute>
+            }
+          />
+          {/* Public routes */}
+          <Route path="/banner" element={<BannerList />} />
+          <Route path="/detailbanner/:id" element={<BannerDetail />} />
+          <Route path="/promo" element={<PromoList />} />
+          <Route path="/detailpromo/:id" element={<PromoDetail />} />
+          <Route path="/category" element={<CategoryList />} />
+          <Route path="/detailcategory/:id" element={<CategoryDetail />} />
+          <Route path="/activity" element={<ActivityList />} />
+          <Route path="/detailactivity/:id" element={<ActivityDetail />} />
+          <Route path="/uploadimage" element={<UploadImage />} />
         </Routes>
       </BrowserRouter>
     </div>

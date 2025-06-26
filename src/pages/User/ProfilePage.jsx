@@ -43,7 +43,7 @@ const ProfilePage = () => {
         <div className="absolute inset-0 bg-black bg-opacity-60" />
       </div>
 
-      <div className="relative z-20">
+      <div className="relative z-20 mt-24">
         <Navbar />
       </div>
 
