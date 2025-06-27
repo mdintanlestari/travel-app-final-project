@@ -101,12 +101,15 @@ const TransactionList = () => {
                       {trx.payment_method.virtual_account_number}
                     </p>{" "}
                     <strong>Bukti Transfer</strong>
-                    <img src={trx.proofPaymentUrl} />
+                    <img
+                      src={trx.proofPaymentUrl}
+                      className="w-[40vh] h-[30vh] mt-5"
+                    />
                   </div>
                 </div>
 
                 {/* Items */}
-                <div className="mt-4">
+                <div className="-mt-24">
                   <p className="mb-2 text-lg font-semibold">Item Dibeli</p>
                   <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
                     {trx.transaction_items?.map((item) => (
