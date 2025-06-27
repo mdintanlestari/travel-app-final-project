@@ -37,7 +37,7 @@ import DetailTransaction from "./pages/User/DetailTransaction";
 import UpdateTransactionStatus from "./components/Admin/UpdateTransactionStatus";
 import UploadImage from "./components/UploadImage";
 import ManageTransaction from "./pages/Admin/ManageTransactions";
-import MyProfile from "./pages/user/MyProfile";
+import MyProfile from "./pages/User/MyProfile";
 
 function App() {
   return (
