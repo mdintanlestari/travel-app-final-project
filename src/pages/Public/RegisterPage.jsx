@@ -168,6 +168,17 @@ function RegisterPage() {
               Register
             </button>
           </form>
+          <div>
+            <p className="mt-2 text-sm text-center">
+              Already have an account?{" "}
+              <a
+                href="/login"
+                className="text-blue-700 underline hover:text-blue-900"
+              >
+                Login
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </div>

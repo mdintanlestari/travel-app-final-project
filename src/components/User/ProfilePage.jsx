@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import UploadImage from "../UploadImage";
 import Navbar from "../Navbar";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -10,6 +11,7 @@ const ProfilePage = () => {
   const [error, setError] = useState("");
 
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   const fetchUser = async () => {
     try {
@@ -52,6 +54,7 @@ const ProfilePage = () => {
         }
       );
       toast.success("Profil berhasil diupdate!");
+      navigate("/profile");
     } catch (err) {
       toast.error("Gagal update profil");
     }

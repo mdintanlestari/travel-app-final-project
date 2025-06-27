@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
+
 import photo1 from "../../assets/img/register/photo1.jpg";
 
 function LoginPage() {
@@ -8,6 +10,14 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [success, setSuccsess] = useState("");
   const [error, setError] = useState("");
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  let prevPage = searchParams.get("prevPage"); // ambil dari URL
+
+  if (prevPage?.startsWith("/activity/")) {
+    prevPage = prevPage.replace("/activity/", "/detailactivity/");
+  }
 
   const isButtonValid = email.trim() !== "" && password.trim() !== "";
 
@@ -49,13 +59,19 @@ function LoginPage() {
       );
       const role = profileResponse.data.data.role;
       localStorage.setItem("role", role);
+
+      const userData = profileResponse.data.data;
+      localStorage.setItem("user", JSON.stringify(userData));
+
       console.log(profileResponse);
 
       setSuccsess("Login Success!!");
 
       setTimeout(() => {
-        if (role === "admin") {
-          navigate("/dashboard");
+        if (prevPage) {
+          navigate(prevPage);
+        } else if (role === "admin") {
+          navigate("/admin");
         } else {
           navigate("/");
         }

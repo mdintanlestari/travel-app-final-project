@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../../components/Navbar";
 import background from "../../assets/img/profilepage/background.jpg";
+import { Link } from "react-router-dom";
 
-const ProfilePage = () => {
+const MyProfile = () => {
   const [user, setUser] = useState("");
 
   useEffect(() => {
@@ -36,6 +37,7 @@ const ProfilePage = () => {
 
   return (
     <div className="relative ">
+      <Navbar />
       <div
         className="absolute inset-0 min-h-screen bg-center bg-cover -z-10"
         style={{ backgroundImage: `url(${background})` }}
@@ -66,6 +68,12 @@ const ProfilePage = () => {
               <p className="text-gray-600">Role: {user.role}</p>
               <p className="text-gray-600">Phone Number: {user.phoneNumber}</p>
             </div>
+            <Link
+              to="/updateprofile"
+              className="inline-block px-4 py-2 mt-10 font-semibold text-white transition duration-300 bg-green-600 rounded-lg shadow-md hover:bg-green-700"
+            >
+              Update Profile
+            </Link>
           </div>
         ) : (
           <p className="text-xl text-white">Loading data user...</p>
@@ -75,4 +83,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default MyProfile;

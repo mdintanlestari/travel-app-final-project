@@ -37,6 +37,7 @@ import DetailTransaction from "./pages/User/DetailTransaction";
 import UpdateTransactionStatus from "./components/Admin/UpdateTransactionStatus";
 import UploadImage from "./components/UploadImage";
 import ManageTransaction from "./pages/Admin/ManageTransactions";
+import MyProfile from "./pages/user/MyProfile";
 
 function App() {
   return (
@@ -46,12 +47,21 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
+
           {/* Users routes */}
+          <Route
+            path="/updateprofile"
+            element={
+              <ProtectedRoute requiredRole="user">
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/profile"
             element={
               <ProtectedRoute requiredRole="user">
-                <ProfilePage />
+                <MyProfile />
               </ProtectedRoute>
             }
           />
