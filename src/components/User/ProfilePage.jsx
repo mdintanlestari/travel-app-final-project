@@ -32,7 +32,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  });
 
   const handleUpdate = async () => {
     const payload = {
