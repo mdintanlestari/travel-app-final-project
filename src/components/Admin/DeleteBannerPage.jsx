@@ -21,14 +21,14 @@ const DeleteBannerPage = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
-      setMessage("Banner berhasil dihapus!");
+      setMessage("Banner successfully deleted!");
       setTimeout(() => {
         navigate("/admin/managebanner");
       }, 1500);
     } catch (error) {
-      setMessage("Gagal menghapus banner: " + error.response?.data?.message);
+      setMessage("Failed to delete banner: " + error.response?.data?.message);
     }
   };
 

@@ -18,11 +18,11 @@ export const CartProvider = ({ children }) => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       setCartCount(res.data.data.length);
     } catch (err) {
-      console.error("Gagal fetch cart count:", err);
+      console.error("Failed to fetch cart count:", err);
     }
   };
 

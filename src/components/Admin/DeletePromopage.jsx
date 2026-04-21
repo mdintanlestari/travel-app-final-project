@@ -21,14 +21,14 @@ const DeletePromoPage = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
-      setMessage("Promo berhasil dihapus!");
+      setMessage("Successfully deleted promo!");
       setTimeout(() => {
         navigate("/admin/managepromo");
       }, 1500);
     } catch (error) {
-      setMessage("Gagal menghapus promo: " + error.response?.data?.message);
+      setMessage("Failed to delete promo:" + error.response?.data?.message);
     }
   };
 

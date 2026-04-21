@@ -50,7 +50,7 @@ const CategorySwiper = ({ categories }) => {
         {categories.map((category) => (
           <SwiperSlide key={category.id}>
             <Link to={`/detailcategory/${category.id}`}>
-              <div className="relative group overflow-hidden h-[60vh] ">
+              <div className="relative group w-full h-[300px] rounded-xl overflow-hidden  ">
                 <img
                   src={category.imageUrl}
                   alt={category.name}

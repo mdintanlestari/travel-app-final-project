@@ -6,6 +6,8 @@ const UploadImage = ({ onUploadSuccess }) => {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
 
+  console.log("isinya pa", imageUrl);
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
@@ -29,22 +31,23 @@ const UploadImage = ({ onUploadSuccess }) => {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       )
       .then((res) => {
+        console.log("ini data", res.data);
+        console.log("ini respon", res);
         const url = res.data.url;
         setImageUrl(url);
-        toast.success("Upload berhasil!");
+        toast.success("Successfully uploaded!");
         if (onUploadSuccess) {
           onUploadSuccess(url); // kirim ke parent
         }
       })
       .catch((err) => {
         console.error(err);
-        toast.error("Upload gagal");
+        toast.error("Upload failed");
       });
   };
 
@@ -53,8 +56,11 @@ const UploadImage = ({ onUploadSuccess }) => {
       <input type="file" onChange={handleImageChange} />
 
       <button
-        onClick={handleUpload}
-        className="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600"
+        onClick={() => {
+          console.log("button klik");
+          handleUpload();
+        }}
+        className="rounded bg-slate-300 hover:bg-slate-400 p-2 border cursor-pointer"
       >
         Upload
       </button>

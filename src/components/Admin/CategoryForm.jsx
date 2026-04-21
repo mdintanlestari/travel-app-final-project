@@ -20,7 +20,7 @@ const CategoryForm = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
+      await axios.post(
         "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/create-category",
         {
           name,
@@ -31,17 +31,17 @@ const CategoryForm = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
-      setMessage("Category berhasil dibuat");
+      setMessage("Category successfully created");
       setName("");
       setImageUrl("");
       setTimeout(() => {
         navigate("/admin/managecategory");
       }, 2000);
     } catch (error) {
-      console.error("gagal membuat category", error);
-      setMessage(" Gagal: " + error.response.data.message);
+      console.error("Failed to create category", error);
+      setMessage(" Failed: " + error.response.data.message);
     }
   };
 
@@ -52,17 +52,17 @@ const CategoryForm = () => {
         className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg"
       >
         <h1 className="mb-4 text-2xl font-bold text-center">
-          Buat Kategori Baru
+          Create New category
         </h1>
 
         <div className="mb-4">
           <label className="block mb-1 text-sm font-medium text-gray-700">
-            Nama Category:
+            Category Name:
           </label>
           <input
             type="text"
             value={name}
-            placeholder="Masukkan nama kategory"
+            placeholder="Add Category Name"
             onChange={(e) => setName(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
@@ -70,16 +70,16 @@ const CategoryForm = () => {
 
         <div className="mb-4">
           <label className="block mb-1 text-sm font-medium text-gray-700">
-            URL Gambar:
+            Image URL:
           </label>
           <UploadImage onUploadSuccess={handleImageUpload} />
-          {imageUrl && <p>Image berhasil di-upload ke: {imageUrl}</p>}
+          {imageUrl && <p>Image successfully uploaded to: {imageUrl}</p>}
         </div>
         <button
           type="submit"
           className="w-full px-4 py-2 mt-6 text-white transition bg-blue-600 rounded hover:bg-blue-700"
         >
-          Buat Kategori
+          Create Kategori
         </button>
         {message && (
           <p className="mt-4 text-sm font-medium text-center text-green-700">

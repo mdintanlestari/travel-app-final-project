@@ -24,7 +24,7 @@ const CartPage = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       setCartItems(res.data.data);
     } catch (err) {
@@ -42,11 +42,11 @@ const CartPage = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       fetchCart();
       fetchCartCount();
-    } catch (err) {
+    } catch {
       toast.error("Gagal update jumlah");
     }
   };
@@ -60,12 +60,12 @@ const CartPage = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       toast.success("Item berhasil dihapus");
       fetchCart();
       fetchCartCount();
-    } catch (err) {
+    } catch {
       toast.error("Gagal menghapus item");
     }
   };
@@ -74,7 +74,7 @@ const CartPage = () => {
     setSelectedItems((prev) =>
       prev.includes(itemId)
         ? prev.filter((id) => id !== itemId)
-        : [...prev, itemId]
+        : [...prev, itemId],
     );
   };
 
@@ -110,7 +110,7 @@ const CartPage = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
 
       console.log("Full response:", res.data);
@@ -123,7 +123,7 @@ const CartPage = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       setCartCount(fartCount - selectedItems.length);
       const reverseTransaction = transactions.data.data.reverse();
@@ -148,7 +148,7 @@ const CartPage = () => {
           headers: {
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       setPaymentMethods(res.data.data);
     } catch (err) {
@@ -182,11 +182,11 @@ const CartPage = () => {
               onChange={toggleSelectAll}
               className="mr-2"
             />
-            <label>Pilih Semua</label>
+            <label>Select All</label>
           </div>
 
           {cartItems.length === 0 ? (
-            <p>Cart kamu kosong.</p>
+            <p>No items in your cart yet.</p>
           ) : (
             <>
               {cartItems.map((item) => (
@@ -240,7 +240,7 @@ const CartPage = () => {
                       onClick={() => handleDeleteCart(item.id)}
                       className="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-700"
                     >
-                      Hapus
+                      Delete
                     </button>
                   </div>
                 </div>
@@ -248,7 +248,7 @@ const CartPage = () => {
 
               <div className="mt-6 text-right">
                 <p className="text-xl font-bold">
-                  Total Harga (terpilih): Rp
+                  Total Price (Selected): Rp
                   {calculateTotalPrice().toLocaleString()}
                 </p>
               </div>
@@ -259,7 +259,7 @@ const CartPage = () => {
         {/* PAYMENT METHODS */}
         <div>
           <h2 className="mb-4 text-lg font-semibold text-gray-700">
-            Pilih Metode Pembayaran:
+            Select a Payment Method:
           </h2>
           <div className="grid gap-3 mb-6">
             {paymentMethods.map((method) => (
@@ -293,7 +293,7 @@ const CartPage = () => {
                 onClick={handleCheckout}
                 className="px-6 py-2 text-white bg-green-600 rounded hover:bg-green-700"
               >
-                Checkout Sekarang
+                Checkout Now
               </button>
             </div>
           )}

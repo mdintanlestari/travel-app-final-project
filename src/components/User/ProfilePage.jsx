@@ -22,10 +22,10 @@ const ProfilePage = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       setUser(res.data.data);
-    } catch (err) {
+    } catch {
       setError("Gagal mengambil data user");
     }
   };
@@ -51,11 +51,11 @@ const ProfilePage = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       toast.success("Profil berhasil diupdate!");
       navigate("/profile");
-    } catch (err) {
+    } catch {
       toast.error("Gagal update profil");
     }
   };
@@ -72,9 +72,8 @@ const ProfilePage = () => {
 
   return (
     <div>
-      <Navbar />
-      <div className="max-w-xl px-6 py-10 mx-auto mt-12 bg-white rounded-lg shadow-lg">
-        <h2 className="mb-6 text-2xl font-bold text-center text-green-600">
+      <div className="max-w-xl  px-6 py-10 mx-auto mt-36 bg-slate-200 rounded-lg shadow-lg">
+        <h2 className="mb-6 text-2xl font-bold text-center text-slate-600">
           Profil {user.role === "admin" ? "Admin" : "User"}
         </h2>
 
@@ -82,12 +81,12 @@ const ProfilePage = () => {
 
         <div className="space-y-5">
           <div>
-            <label className="block mb-1 font-medium">Nama</label>
+            <label className="block mb-1 font-medium">Name</label>
             <input
               type="text"
               onChange={(e) => handleChange("name", e.target.value)}
               className="w-full px-4 py-2 border rounded"
-              placeholder="masukkan nama"
+              placeholder="Input Name"
             />
           </div>
 
@@ -97,33 +96,33 @@ const ProfilePage = () => {
               type="email"
               onChange={(e) => handleChange("email", e.target.value)}
               className="w-full px-4 py-2 border rounded"
-              placeholder="masukkan email"
+              placeholder="Write email"
             />
           </div>
 
           <div>
-            <label className="block mb-1 font-medium">No HP</label>
+            <label className="block mb-1 font-medium">Phone</label>
             <input
               type="text"
               onChange={(e) => handleChange("phoneNumber", e.target.value)}
               className="w-full px-4 py-2 border rounded"
-              placeholder="masukkan nomor hp"
+              placeholder="input phone number"
             />
           </div>
 
           <UploadImage onUploadSuccess={handleImageUpload} />
           {imageUrl && (
             <div className="mt-2 text-sm text-gray-600">
-              Image berhasil di-upload:
+              Image successfully uploaded:
               <div className="break-all">{imageUrl}</div>
             </div>
           )}
 
           <button
             onClick={handleUpdate}
-            className="w-full px-4 py-2 font-semibold text-white bg-green-600 rounded hover:bg-green-700"
+            className="w-full px-4 py-2 font-semibold text-white bg-slate-600 rounded hover:bg-slate-700"
           >
-            Simpan Perubahan
+            Save Change
           </button>
         </div>
       </div>

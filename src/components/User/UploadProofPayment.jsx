@@ -15,7 +15,7 @@ const UploadProofPayment = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!selectedeFile) return toast.error("Pilih file terlebih dahulu");
+    if (!selectedeFile) return toast.error("Please select a file first");
 
     const formData = new FormData();
     formData.append("file", selectedeFile);
@@ -30,12 +30,12 @@ const UploadProofPayment = () => {
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
-      toast.success("Bukti pembayaran berhasil di upload");
+      toast.success("Proof of payment uploaded successfully");
     } catch (err) {
-      console.error("Gagal upload bukti pembayaran", err);
-      toast.error("Terjadi kesalahan saat upload");
+      console.error("Failed to upload proof of payment", err);
+      toast.error("Something went wrong while uploading");
     }
   };
 

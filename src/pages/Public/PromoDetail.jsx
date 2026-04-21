@@ -18,7 +18,7 @@ const PromoDetail = () => {
               apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
         setPromo(res.data.data);
       } catch (err) {
@@ -65,7 +65,7 @@ const PromoDetail = () => {
           {promo.terms_condition && (
             <div className="p-4 mb-6 text-sm text-gray-700 bg-gray-100 rounded-md">
               <p className="mb-1 font-semibold text-gray-600">
-                Syarat & Ketentuan:
+                Terms and Conditions:
               </p>
               <p>{promo.terms_condition}</p>
             </div>
@@ -73,21 +73,21 @@ const PromoDetail = () => {
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <p className="text-sm text-gray-500">Kode Promo</p>
+              <p className="text-sm text-gray-500">Promo Code</p>
               <p className="inline-block px-3 py-1 mt-1 font-semibold text-blue-800 bg-blue-100 rounded-md">
                 {promo.promo_code}
               </p>
             </div>
 
             <div>
-              <p className="text-sm text-gray-500">Diskon</p>
+              <p className="text-sm text-gray-500">Discount</p>
               <p className="mt-1 font-semibold text-green-700">
                 {formatRupiah(promo.promo_discount_price)}
               </p>
             </div>
 
             <div className="sm:col-span-2">
-              <p className="text-sm text-gray-500">Minimum Belanja</p>
+              <p className="text-sm text-gray-500">Minimum Purchase</p>
               <p className="mt-1 text-gray-800">
                 {formatRupiah(promo.minimum_claim_price)}
               </p>

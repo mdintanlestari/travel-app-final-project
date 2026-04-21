@@ -22,7 +22,7 @@ const CategoryDetail = () => {
               apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
         setCategory(categoryRes.data.data);
 
@@ -34,11 +34,11 @@ const CategoryDetail = () => {
               apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
 
         const filteredActivities = activityRes.data.data.filter(
-          (act) => act.categoryId === id
+          (act) => act.categoryId === id,
         );
         setActivities(filteredActivities);
       } catch (err) {
@@ -76,13 +76,11 @@ const CategoryDetail = () => {
 
         <div className="max-w-5xl mx-auto">
           <h3 className="mb-6 text-2xl font-semibold text-gray-800">
-            Aktivitas di kategori ini:
+            Activities in This Category:
           </h3>
 
           {activities.length === 0 ? (
-            <p className="text-gray-500">
-              Belum ada aktivitas untuk kategori ini.
-            </p>
+            <p className="text-gray-500">No activities available right now.</p>
           ) : (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {activities.map((activity) => (

@@ -3,9 +3,10 @@ import { Outlet } from "react-router-dom";
 
 const ProtectedRoute = ({ children, requiredRole }) => {
   const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
+  const userData = localStorage.getItem("user");
+  const user = userData ? JSON.parse(userData) : null;
 
-  console.log(user.role);
+  console.log(user?.role);
 
   if (!token) {
     return <Navigate to="/login" />;

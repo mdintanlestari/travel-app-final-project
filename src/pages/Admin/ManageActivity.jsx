@@ -17,11 +17,11 @@ const ManageActivity = () => {
               apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
         setActivities(res.data.data);
       } catch (err) {
-        console.error("Gagal memuat Aktivitas", err);
+        console.error("Failed to load activities", err);
       }
     };
 
@@ -30,7 +30,7 @@ const ManageActivity = () => {
 
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
-      "Yakin ingin menghapus aktivitas ini?"
+      "Are you sure you want to delete this activity?",
     );
     if (!confirmDelete) return;
 
@@ -42,16 +42,16 @@ const ManageActivity = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
 
       setActivities((prevActivities) =>
-        prevActivities.filter((activity) => activity.id !== id)
+        prevActivities.filter((activity) => activity.id !== id),
       );
-      toast.success("Aktivitas berhasil dihapus");
+      toast.success("Activity deleted successfully");
     } catch (err) {
-      console.error("Gagal menghapus aktivitas", err);
-      toast.error("Gagal menghapus aktivitas");
+      console.error("Failed to delete activity", err);
+      toast.error("Failed to delete activity");
     }
   };
 

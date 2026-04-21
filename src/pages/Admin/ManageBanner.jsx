@@ -18,14 +18,14 @@ const ManageBanner = () => {
               apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
         setBanners(res.data.data);
         setTimeout(() => {
           navigate("/admin/managebanner");
         });
       } catch (err) {
-        console.error("Gagal memuat banner", err);
+        console.error("Failed to load banners", err);
       }
     };
 
@@ -33,7 +33,9 @@ const ManageBanner = () => {
   }, [token]);
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Yakin ingin menghapus banner ini?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this banner?",
+    );
     if (!confirmDelete) return;
 
     try {
@@ -44,16 +46,16 @@ const ManageBanner = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
 
       setBanners((prevBanners) =>
-        prevBanners.filter((banner) => banner.id !== id)
+        prevBanners.filter((banner) => banner.id !== id),
       );
-      toast.success("Banner berhasil dihapus");
+      toast.success("Banner deleted successfully");
     } catch (err) {
-      console.error("Gagal menghapus banner", err);
-      toast.error("Gagal menghapus banner");
+      console.error("Failed to delete banner", err);
+      toast.error("Failed to delete banner");
     }
   };
 
@@ -70,7 +72,7 @@ const ManageBanner = () => {
       </div>
 
       {banners.length === 0 ? (
-        <p className="text-gray-600">Belum ada banner.</p>
+        <p className="text-gray-600">No banners yet.</p>
       ) : (
         banners.map((banner) => (
           <div

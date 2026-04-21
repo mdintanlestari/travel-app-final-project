@@ -24,7 +24,7 @@ const DetailTransaction = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       toast.success("Bukti pembayaran berhasil dikirim!");
       navigate("/mytransactions");
@@ -43,7 +43,7 @@ const DetailTransaction = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       setTransaction(res.data.data);
     } catch (err) {
@@ -53,7 +53,7 @@ const DetailTransaction = () => {
 
   const handleCancelTransaction = async (id) => {
     const confirmCancel = window.confirm(
-      "Yakin ingin membatalkan transaksi ini?"
+      "Yakin ingin membatalkan transaksi ini?",
     );
     if (!confirmCancel) return;
 
@@ -66,7 +66,7 @@ const DetailTransaction = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       toast.success("Transaksi berhasil dibatalkan");
       fetchDetailTransaction(); // refresh data setelah cancel
@@ -88,7 +88,7 @@ const DetailTransaction = () => {
       <Navbar />
       <div>
         <div className="max-w-3xl p-4 mx-auto mt-32 bg-white rounded shadow">
-          <h2 className="mb-2 text-2xl font-bold">Detail Transaksi</h2>
+          <h2 className="mb-2 text-2xl font-bold">Detail Transaction</h2>
           <p>
             <strong>Invoice:</strong> {transaction.invoiceId}
           </p>
@@ -100,12 +100,11 @@ const DetailTransaction = () => {
             {transaction.totalAmount.toLocaleString("id-ID")}
           </p>
           <p>
-            <strong>Tanggal Order:</strong>{" "}
+            <strong>Order Date:</strong>{" "}
             {new Date(transaction.orderDate).toLocaleDateString()}
           </p>
           <p>
-            <strong>Metode Pembayaran:</strong>{" "}
-            {transaction.payment_method?.name}
+            <strong>Payment Method:</strong> {transaction.payment_method?.name}
           </p>
 
           <hr className="my-4" />
@@ -119,8 +118,8 @@ const DetailTransaction = () => {
                 className="w-32 mb-2"
               />
               <p>{item.title}</p>
-              <p>Harga: Rp {item.price.toLocaleString("id-ID")}</p>
-              <p>Diskon: Rp {item.price?.toLocaleString() ?? "-"}</p>
+              <p>Price: Rp {item.price.toLocaleString("id-ID")}</p>
+              <p>Discount: Rp {item.price?.toLocaleString() ?? "-"}</p>
               <p>Qty: {item.quantity}</p>
             </div>
           ))}
@@ -130,7 +129,7 @@ const DetailTransaction = () => {
               onClick={() => handleCancelTransaction(transaction.id)}
               className="px-4 py-2 mt-4 text-white bg-red-600 rounded hover:bg-red-700"
             >
-              Batalkan Transaksi
+              Cancel Order
             </button>
           )}
 
@@ -139,7 +138,7 @@ const DetailTransaction = () => {
             <h2 className="mt-10 text-lg font-semibold">Upload Payment </h2>
 
             <UploadImage onUploadSuccess={handleImageUpload} />
-            {imageUrl && <p>Image berhasil di-upload ke: {imageUrl}</p>}
+            {imageUrl && <p>Image successfully uploaded to: {imageUrl}</p>}
           </div>
         </div>
       </div>

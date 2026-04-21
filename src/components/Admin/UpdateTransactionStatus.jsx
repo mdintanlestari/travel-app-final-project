@@ -1,6 +1,5 @@
 import axios from "axios";
 
-import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const UpdateTransactionStatus = ({ id, onApproved, onRejected }) => {
@@ -23,22 +22,22 @@ const UpdateTransactionStatus = ({ id, onApproved, onRejected }) => {
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
             "Content-Type": "application/json",
           },
-        }
+        },
       );
-      toast.success("successs");
+      toast.success("success");
       if (newStatus === "success") {
         onApproved(id);
       } else {
         onRejected(id);
       }
     } catch (err) {
-      console.error("Gagal update status", err);
-      toast.error("Terjadi kesalahan saat update status");
+      console.error("Failed to update status", err);
+      toast.error("Something went wrong while updating status");
     }
   };
 
   if (role !== "admin") {
-    return <p>Kmau tidak memiliki akses ke halaman ini</p>;
+    return <p>You do not have access to this page</p>;
   }
 
   return (

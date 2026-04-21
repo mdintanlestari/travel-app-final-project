@@ -4,7 +4,7 @@ import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
 
 const AddToCartButton = ({ activityId }) => {
-  const { cartCount, setCartCount } = useCart();
+  const { setCartCount } = useCart();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
@@ -17,7 +17,7 @@ const AddToCartButton = ({ activityId }) => {
     }
 
     try {
-      const res = await axios.post(
+      await axios.post(
         "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/add-cart",
         { activityId },
         {
@@ -25,14 +25,14 @@ const AddToCartButton = ({ activityId }) => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
 
-      toast.success("Berhasil ditambahkan ke keranjang");
+      toast.success("Added to cart successfully");
       setCartCount((prev) => prev + 1);
     } catch (err) {
-      console.error("Gagal Add to Cart:", err.response?.data || err.message);
-      toast.error("Gagal menambahkan ke keranjang");
+      console.error("Failed Add to Cart:", err.response?.data || err.message);
+      toast.error("Failed to add to cart");
     }
   };
 

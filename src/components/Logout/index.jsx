@@ -9,7 +9,7 @@ const Logout = () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      toast.error("Token tidak ditemukan, silakan login ulang.");
+      toast.error("Session expired. Please log in again.");
       return;
     }
 
@@ -21,7 +21,7 @@ const Logout = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
 
       console.log("Respon logout:", response.data);
@@ -29,14 +29,14 @@ const Logout = () => {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
 
-      toast.success("Berhasil logout");
+      toast.success("Successfully logged out");
 
       setTimeout(() => {
         navigate("/");
         window.location.reload();
       }, 1000);
     } catch (error) {
-      const errorMsg = error?.response?.data?.message || "Logout gagal";
+      const errorMsg = error?.response?.data?.message || "Logout failed";
       toast.error(errorMsg);
       console.error("Logout error:", error);
     }

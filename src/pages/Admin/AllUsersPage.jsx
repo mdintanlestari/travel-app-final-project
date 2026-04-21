@@ -8,7 +8,7 @@ const USERS_PER_PAGE = 8;
 const AllUsersPage = () => {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState(""); // NEW
+  const [searchQuery, setSearchQuery] = useState("");
   const token = localStorage.getItem("token");
 
   const getUsers = async () => {
@@ -20,7 +20,7 @@ const AllUsersPage = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       setUsers(response.data.data.reverse());
     } catch (error) {
@@ -42,7 +42,7 @@ const AllUsersPage = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       toast.success(`Berhasil update role menjadi ${newRole}`);
       await getUsers();
@@ -55,14 +55,14 @@ const AllUsersPage = () => {
   const filteredUsers = users.filter(
     (user) =>
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchQuery.toLowerCase())
+      user.email.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const totalPages = Math.ceil(filteredUsers.length / USERS_PER_PAGE);
   const startIndex = (currentPage - 1) * USERS_PER_PAGE;
   const currentUsers = filteredUsers.slice(
     startIndex,
-    startIndex + USERS_PER_PAGE
+    startIndex + USERS_PER_PAGE,
   );
 
   const handleNext = () => {
@@ -83,13 +83,13 @@ const AllUsersPage = () => {
       <div className="flex justify-center px-4 mb-6">
         <input
           type="text"
-          placeholder="Cari berdasarkan nama atau email..."
+          placeholder="Search by name or email..."
           value={searchQuery}
           onChange={(e) => {
             setSearchQuery(e.target.value);
             setCurrentPage(1); // reset halaman saat pencarian
           }}
-          className="w-full max-w-md p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+          className="w-full max-w-md p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
         />
       </div>
 

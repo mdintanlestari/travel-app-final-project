@@ -20,7 +20,7 @@ const ActivityDetail = () => {
               apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
         setActivity(res.data.data);
       } catch (err) {
@@ -93,12 +93,12 @@ const ActivityDetail = () => {
           </div>
 
           <div className="sm:col-span-2">
-            <p className="text-sm text-gray-500">Fasilitas</p>
+            <p className="text-sm text-gray-500">Facilities</p>
             <p className="text-gray-700">{activity.facilities}</p>
           </div>
 
           <div className="sm:col-span-2">
-            <p className="text-sm text-gray-500">Alamat</p>
+            <p className="text-sm text-gray-500">Address</p>
             <p className="text-gray-700">{activity.address}</p>
             <p className="text-gray-700">
               {activity.city}, {activity.province}
@@ -107,7 +107,7 @@ const ActivityDetail = () => {
         </div>
 
         <div className="mb-6">
-          <p className="mb-2 text-sm text-gray-500">Lokasi Peta</p>
+          <p className="mb-2 text-sm text-gray-500">Location on Map</p>
           <div className="overflow-hidden rounded shadow-md">
             <div
               className="w-full h-64"

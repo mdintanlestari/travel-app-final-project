@@ -15,7 +15,7 @@ const TransactionList = () => {
   const indexOfFirtsItem = indexOfLastItem - itemPerPage;
   const currentTransactions = transactions.slice(
     indexOfFirtsItem,
-    indexOfLastItem
+    indexOfLastItem,
   );
 
   const fetchTransactions = async () => {
@@ -27,11 +27,11 @@ const TransactionList = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
 
       const sorted = res.data.data.sort(
-        (a, b) => new Date(b.orderDate) - new Date(a.orderDate)
+        (a, b) => new Date(b.orderDate) - new Date(a.orderDate),
       );
 
       setTransaction(sorted);
@@ -47,7 +47,7 @@ const TransactionList = () => {
   if (transactions.length === 0) {
     return (
       <p className="mt-10 text-center text-gray-500">
-        Kamu belum memiliki transaksi
+        You don’t have any transactions yet.
       </p>
     );
   }
@@ -56,9 +56,7 @@ const TransactionList = () => {
     <div className="bg-gray-200">
       <Navbar />
       <div className="max-w-6xl px-4 py-8 mx-auto mt-20">
-        <h1 className="mb-6 text-2xl font-bold text-center">
-          Riwayat Transaksi
-        </h1>
+        <h1 className="mb-6 text-2xl font-bold text-center">Booking History</h1>
         <ul className="space-y-6">
           {currentTransactions.map((trx) => {
             console.log("isi transaksi", trx);
@@ -70,7 +68,7 @@ const TransactionList = () => {
                   {/* Informasi Transaksi */}
                   <div>
                     <p className="mb-2 text-lg font-semibold">
-                      Informasi Transaksi
+                      Transaction Details
                     </p>
                     <p>
                       <strong>Invoice:</strong> {trx.invoice}
@@ -79,7 +77,7 @@ const TransactionList = () => {
                       <strong>Status:</strong> {trx.status}
                     </p>
                     <p>
-                      <strong>Tanggal:</strong>{" "}
+                      <strong>Date:</strong>{" "}
                       {new Date(trx.orderDate).toLocaleString()}
                     </p>
                     <p>
@@ -91,7 +89,7 @@ const TransactionList = () => {
                   {/* Pembayaran */}
                   <div>
                     <p className="mb-2 text-lg font-semibold">
-                      Metode Pembayaran
+                      Payment Method:
                     </p>
                     <p>
                       <strong>Metode:</strong> {trx.payment_method.name}
@@ -100,7 +98,7 @@ const TransactionList = () => {
                       <strong>VA Number:</strong>{" "}
                       {trx.payment_method.virtual_account_number}
                     </p>{" "}
-                    <strong>Bukti Transfer</strong>
+                    <strong>Transfer Proof</strong>
                     <img
                       src={trx.proofPaymentUrl}
                       className="w-[40vh] h-[30vh] mt-5"
@@ -110,7 +108,7 @@ const TransactionList = () => {
 
                 {/* Items */}
                 <div className="-mt-24">
-                  <p className="mb-2 text-lg font-semibold">Item Dibeli</p>
+                  <p className="mb-2 text-lg font-semibold">Items Purchased</p>
                   <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
                     {trx.transaction_items?.map((item) => (
                       <div
@@ -124,8 +122,8 @@ const TransactionList = () => {
                         />
                         <div>
                           <p className="font-medium">{item.title}</p>
-                          <p>Jumlah: {item.quantity}</p>
-                          <p>Harga: Rp{item.price.toLocaleString()}</p>
+                          <p>Quantity: {item.quantity}</p>
+                          <p>Price: Rp{item.price.toLocaleString()}</p>
                         </div>
                       </div>
                     ))}
@@ -152,13 +150,13 @@ const TransactionList = () => {
             setCurrentPage((prev) =>
               prev < Math.ceil(transactions.length / itemPerPage)
                 ? prev + 1
-                : prev
+                : prev,
             )
           }
           disabled={
             currentPage === Math.ceil(transactions.length / itemPerPage)
           }
-          className="px-4 py-2 bg-green-600 rounded hover:bg-green-900 disabled:opacity-50"
+          className="px-4 py-2 bg-slate-600 rounded hover:bg-slate-900 disabled:opacity-50"
         >
           Next
         </button>

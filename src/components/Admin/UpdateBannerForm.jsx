@@ -22,13 +22,13 @@ const UpdateBannerForm = () => {
               Authorization: `Bearer ${token}`,
               apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
             },
-          }
+          },
         );
         setName(res.data.data.name);
         setImageUrl(res.data.data.imageUrl);
       } catch (error) {
-        console.error("gagal mengambil data banner", error);
-        setMessage("Gagal mengambil data banner");
+        console.error("Failed to fetch banner data", error);
+        setMessage("Failed to load banner data");
       }
     };
 
@@ -50,15 +50,15 @@ const UpdateBannerForm = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       setMessage("Banner berhasil diperbaharui");
       setTimeout(() => {
         navigate("/admin/managebanner");
       }, 2000);
     } catch (error) {
-      console.error("Gagal update banner", error);
-      setMessage(` Gagal update banner: ${error.response?.data?.message}`);
+      console.error("Failed to update banner", error);
+      setMessage(` Failed to update banner: ${error.response?.data?.message}`);
     }
   };
 
@@ -71,20 +71,20 @@ const UpdateBannerForm = () => {
         <h1 className="mb-6 text-2xl font-bold text-center">Update Banner</h1>
 
         <div className="mb-4">
-          <label className="block mb-2 text-gray-700">Nama Banner</label>
+          <label className="block mb-2 text-gray-700">Banner Name</label>
           <input
             type="text"
-            placeholder="Nama Banner"
+            placeholder="Banner Name"
             onChange={(e) => setName(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded"
           />
         </div>
 
         <div className="mb-4">
-          <label className="block mb-2 text-gray-700">URL Gambar</label>
+          <label className="block mb-2 text-gray-700">Image URL</label>
           <input
             type="text"
-            placeholder="Masukkan URL Gambar"
+            placeholder="Add Image URL"
             onChange={(e) => setImageUrl(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded"
           />

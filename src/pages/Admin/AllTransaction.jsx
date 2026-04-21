@@ -14,7 +14,7 @@ const AllTransaction = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentTransactions = transactions.slice(
     indexOfFirstItem,
-    indexOfLastItem
+    indexOfLastItem,
   );
   const totalPages = Math.ceil(transactions.length / itemsPerPage);
 
@@ -27,7 +27,7 @@ const AllTransaction = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       setTransactions(res.data.data.reverse() || []);
     } catch (err) {
@@ -45,7 +45,7 @@ const AllTransaction = () => {
     const updatedTransactions = transactions.map((transaction) =>
       transaction.id === id
         ? { ...transaction, status: "success" }
-        : transaction
+        : transaction,
     );
     setTransactions(updatedTransactions);
   };
@@ -54,19 +54,19 @@ const AllTransaction = () => {
     const updatedTransactions = transactions.map((transaction) =>
       transaction.id === id
         ? { ...transaction, status: "cancelled" }
-        : transaction
+        : transaction,
     );
     setTransactions(updatedTransactions);
   };
 
-  if (loading) return <p>Memuat transaksi...</p>;
+  if (loading) return <p>Loading transactions...</p>;
 
   return (
     <div className="p-6">
-      <h1 className="mb-4 text-2xl font-bold">Semua Transaksi</h1>
+      <h1 className="mb-4 text-2xl font-bold">All Transactions</h1>
 
       {currentTransactions.length === 0 ? (
-        <p>Tidak ada transaksi</p>
+        <p>No transactions</p>
       ) : (
         currentTransactions.map((trxs) => (
           <div
@@ -80,7 +80,7 @@ const AllTransaction = () => {
               Status: <strong>{trxs.status}</strong>
             </p>
             <p>Total: Rp. {trxs.totalAmount?.toLocaleString("id-ID")}</p>
-            <p>Metode Pembayaran: {trxs.payment_method?.name || "-"}</p>
+            <p>Payment method: {trxs.payment_method?.name || "-"}</p>
             <hr className="my-3" />
             <p className="font-semibold">Detail Item:</p>
             {trxs.transaction_items?.map((item) => (
@@ -96,9 +96,9 @@ const AllTransaction = () => {
                   }}
                 />
                 <p>{item.title}</p>
-                <p>Harga: Rp. {item.price?.toLocaleString("id-ID")}</p>
+                <p>Price: Rp. {item.price?.toLocaleString("id-ID")}</p>
                 <p>
-                  Diskon: Rp. {item.price_discount?.toLocaleString("id-ID")}
+                  Discount: Rp. {item.price_discount?.toLocaleString("id-ID")}
                 </p>
                 <p>Qty: {item.quantity}</p>
               </div>

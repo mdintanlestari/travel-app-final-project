@@ -10,7 +10,7 @@ const UserRole = () => {
 
   const handleUpdateRole = async (userId, newRole) => {
     try {
-      const response = await axios.post(
+      await axios.post(
         `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/update-user-role/${userId}`,
         { role: newRole },
         {
@@ -18,14 +18,12 @@ const UserRole = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
-      toast.success(`Berhasil update Role user ${userId} jadi ${role}`);
-      setError("");
+      toast.success(`User role updated successfully ${userId} jadi ${role}`);
     } catch (err) {
       console.error(err.response.data);
       toast.error(err.response.data.message);
-      setSuccess("");
     }
   };
 
@@ -43,7 +41,7 @@ const UserRole = () => {
               type="text"
               value={userId}
               onChange={(e) => setUserId(e.target.value)}
-              placeholder="Masukkan user ID"
+              placeholder="Add user ID"
               className="block w-full p-1 mb-2 border"
             />
 

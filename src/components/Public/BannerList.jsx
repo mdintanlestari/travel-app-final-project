@@ -17,11 +17,11 @@ const BannerList = () => {
               apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
         setBanners(res.data.data);
       } catch (err) {
-        console.error("gagal memuat banner", err);
+        console.error("Failed to load banners", err);
       }
     };
 
@@ -32,7 +32,7 @@ const BannerList = () => {
     <div>
       <Navbar />
       <div className="max-w-5xl p-6 mx-auto">
-        <h2 className="mb-4 text-2xl font-bold">Daftar Banner</h2>
+        <h2 className="mb-4 text-2xl font-bold">Banner List</h2>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
           {banners.map((banner) => (
             <div
@@ -56,7 +56,7 @@ const BannerList = () => {
                   to={`/detailbanner/${banner.id}`}
                   className="text-sm text-blue-600 hover:underline"
                 >
-                  Lihat Detail
+                  See Detail
                 </Link>
               </div>
             </div>

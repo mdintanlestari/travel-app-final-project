@@ -38,6 +38,7 @@ import UpdateTransactionStatus from "./components/Admin/UpdateTransactionStatus"
 import UploadImage from "./components/UploadImage";
 import ManageTransaction from "./pages/Admin/ManageTransactions";
 import MyProfile from "./pages/User/MyProfile";
+import ManageDashboard from "./pages/Admin/ManageDashboard";
 
 function App() {
   return (
@@ -107,6 +108,7 @@ function App() {
               </ProtectedRoute>
             }
           >
+            <Route path="managedashboard" element={<ManageDashboard />} />
             <Route path="managebanner" element={<ManageBanner />} />
             <Route path="managepromo" element={<ManagePromo />} />
             <Route path="managecategory" element={<ManageCategory />} />

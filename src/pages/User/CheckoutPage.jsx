@@ -32,7 +32,7 @@ const CheckoutPage = () => {
           headers: {
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       setPaymentMethods(res.data.data);
     } catch (err) {
@@ -58,7 +58,7 @@ const CheckoutPage = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
 
       const res = await axios.get(
@@ -68,7 +68,7 @@ const CheckoutPage = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
 
       const transactionId = res.data.data.reverse()[0].id;
@@ -91,7 +91,7 @@ const CheckoutPage = () => {
       {selectedCartItems?.length > 0 && (
         <>
           <h2 className="mb-4 text-lg font-semibold text-gray-700">
-            Pilih Metode Pembayaran:
+            Select a Payment Method:
           </h2>
           <div className="grid gap-4 mb-8 sm:grid-cols-2">
             {paymentMethods.map((method) => (
@@ -128,7 +128,7 @@ const CheckoutPage = () => {
               onClick={handleCheckout}
               className="px-8 py-3 text-white transition duration-200 bg-green-600 rounded-full hover:bg-green-700"
             >
-              Bayar Sekarang
+              Pay Now
             </button>
           </div>
         </>

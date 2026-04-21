@@ -17,11 +17,11 @@ const ManageCategory = () => {
               apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
         setCategories(res.data.data);
       } catch (err) {
-        console.error("Gagal memuat kategori", err);
+        console.error("Failed to load categories", err);
       }
     };
 
@@ -29,7 +29,9 @@ const ManageCategory = () => {
   }, [token]);
 
   const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Yakin ingin menghapus banner ini?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this banner?",
+    );
     if (!confirmDelete) return;
 
     try {
@@ -40,16 +42,16 @@ const ManageCategory = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
 
       setCategories((prevCategories) =>
-        prevCategories.filter((kategori) => kategori.id !== id)
+        prevCategories.filter((kategori) => kategori.id !== id),
       );
-      toast.success("Kategori berhasil dihapus");
+      toast.success("Category deleted successfully");
     } catch (err) {
-      console.error("Gagal menghapus Kategori", err);
-      toast.error("Gagal menghapus Kategori");
+      console.error("Failed to delete category", err);
+      toast.error("Failed to delete category");
     }
   };
 

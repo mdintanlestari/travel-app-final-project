@@ -20,7 +20,7 @@ const PromoForm = () => {
   const token = localStorage.getItem("token");
   const handleImageUpload = (url) => {
     setImageUrl(url);
-    console.log("URL dari upload imgaeUrl", url);
+    console.log("Uploaded Image URL", url);
   };
 
   const handleChange = (e) => {
@@ -47,10 +47,10 @@ const PromoForm = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
 
-      toast.success("Promo berhasil dibuat");
+      toast.success("Successfully created promo");
 
       // reset form
       setFormData({
@@ -67,8 +67,8 @@ const PromoForm = () => {
         navigate("/admin/managepromo");
       }, 2000);
     } catch (err) {
-      console.error("Gagal membuat promo", err);
-      toast.error("Gagal membuat promo: " + err.response.data.message);
+      console.error("Failed to create promo", err);
+      toast.error("Failed to create promo: " + err.response.data.message);
     }
   };
 
@@ -83,63 +83,63 @@ const PromoForm = () => {
         </h2>
 
         <div className="mb-4">
-          <label className="block mb-1 font-medium">Nama Promo</label>
+          <label className="block mb-1 font-medium">Promo Name</label>
           <input
             type="text"
             name="title"
             value={formData.title}
             onChange={handleChange}
-            placeholder="Masukkan nama promo"
+            placeholder="Add Promo Name"
             className="w-full p-2 border rounded"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label className="block mb-1 font-medium">Deskripsi</label>
+          <label className="block mb-1 font-medium">Description</label>
           <textarea
             name="description"
             value={formData.description}
             onChange={handleChange}
-            placeholder="Masukkan deskripsi"
+            placeholder="Add Description"
             className="w-full p-2 border rounded"
             required
           ></textarea>
         </div>
 
         <div className="mb-4">
-          <label className="block mb-1 font-medium">Syarat & Ketentuan</label>
+          <label className="block mb-1 font-medium">Term and Condition</label>
           <textarea
             name="terms_condition"
             value={formData.terms_condition}
             onChange={handleChange}
-            placeholder="Tulis disini"
+            placeholder="Write here"
             className="w-full p-2 border rounded"
             required
           ></textarea>
         </div>
 
         <div className="mb-4">
-          <label className="block mb-1 font-medium">Kode Promo</label>
+          <label className="block mb-1 font-medium">Promo Code</label>
           <input
             type="text"
             name="promo_code"
             value={formData.promo_code}
             onChange={handleChange}
-            placeholder="Maukkan Kode Promo"
+            placeholder="Add Promo Code"
             className="w-full p-2 border rounded"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label className="block mb-1 font-medium">Nominal Diskon (Rp)</label>
+          <label className="block mb-1 font-medium">Discount Amount (Rp)</label>
           <input
             type="number"
             name="promo_discount_price"
             value={formData.promo_discount_price}
             onChange={handleChange}
-            placeholder="Masukkan Nominal"
+            placeholder="Add Amount"
             className="w-full p-2 border rounded"
             required
           />
@@ -147,28 +147,28 @@ const PromoForm = () => {
 
         <div className="mb-6">
           <label className="block mb-1 font-medium">
-            Minimum Pembelian (Rp)
+            Minimum Purchase (Rp)
           </label>
           <input
             type="number"
             name="minimum_claim_price"
             value={formData.minimum_claim_price}
             onChange={handleChange}
-            placeholder="Masukkan Nominal"
+            placeholder="Add Amount"
             className="w-full p-2 border rounded"
             required
           />
         </div>
         <div>
           <UploadImage onUploadSuccess={handleImageUpload} />
-          {imageUrl && <p>Image berhasil di-upload ke: {imageUrl}</p>}
+          {imageUrl && <p>Image successfully uploaded to: {imageUrl}</p>}
         </div>
 
         <button
           type="submit"
           className="w-full py-2 font-semibold text-white bg-blue-600 rounded hover:bg-blue-700"
         >
-          Buat Promo
+          Create Promo
         </button>
       </form>
     </div>

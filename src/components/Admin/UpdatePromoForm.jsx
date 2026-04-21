@@ -22,16 +22,16 @@ const UpdatePromoForm = () => {
   useEffect(() => {
     const fetchPromo = async () => {
       try {
-        const res = await axios.get(
+        await axios.get(
           `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/promo/${id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
               apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
             },
-          }
+          },
         );
-        const data = res.data.data;
+
         setFormData({
           title: "",
           description: "",
@@ -41,8 +41,8 @@ const UpdatePromoForm = () => {
           promo_discount_price: "",
           minimum_claim_price: "",
         });
-      } catch (error) {
-        toast.error("Gagal mengambil data promo");
+      } catch {
+        toast.error("Failed to load promo data");
       }
     };
 
@@ -76,18 +76,18 @@ const UpdatePromoForm = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
-      toast.success("Promo berhasil diupdate");
+      toast.success("Promo updated successfully");
       navigate("/admin/managepromo");
     } catch (error) {
       console.error(
-        " Gagal update promo:",
-        error.response?.data || error.message
+        " Failed to update promo:",
+        error.response?.data || error.message,
       );
       toast.error(
-        "Gagal update promo: " +
-          (error.response?.data?.message || "Unknown error")
+        "Failed to update promo:" +
+          (error.response?.data?.message || "Unknown error"),
       );
     }
   };
@@ -104,39 +104,39 @@ const UpdatePromoForm = () => {
 
         {[
           {
-            label: "Nama Promo",
+            label: "Promo Name",
             name: "title",
-            placeholder: "Masukkan nama promo",
+            placeholder: "Add promo name",
           },
           {
-            label: "Deskripsi",
+            label: "Description",
             name: "description",
-            placeholder: "Masukkan deskripsi",
+            placeholder: "Add description",
           },
           {
-            label: "URL Gambar",
+            label: "Image uRL",
             name: "imageUrl",
-            placeholder: "Masukkan Url Gambar",
+            placeholder: "Add Image URL",
           },
           {
-            label: "Syarat & Ketentuan",
+            label: "Term and Condition",
             name: "terms_condition",
-            placeholder: "masukkan persyaratan",
+            placeholder: "Add T&C",
           },
           {
-            label: "Kode Promo",
+            label: "Promo Code",
             name: "promo_code",
-            placeholder: "masukkan kode promo",
+            placeholder: "Add Promo Code",
           },
           {
-            label: "Nominal Diskon",
+            label: "Discount Amount",
             name: "promo_discount_price",
-            placeholder: "Masukkan Jumlah",
+            placeholder: "Add Amount",
           },
           {
-            label: "Minimum Pembelian",
+            label: "Minimum Purchase",
             name: "minimum_claim_price",
-            placeholder: "Masukkan jumlah ",
+            placeholder: "Add Amount",
           },
         ].map(({ label, name, placeholder }) => (
           <div className="mb-4" key={name}>

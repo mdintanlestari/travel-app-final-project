@@ -8,32 +8,31 @@ const Footer = () => {
         <div>
           <h2 className="mb-2 text-xl font-bold">Traveller For Life</h2>
           <p className="text-sm text-gray-400">
-            Discover the world’s best destinations with unforgettable
-            experiences.
+            Discover the World’s Most Breathtaking Destinations
           </p>
         </div>
 
         {/*  Navigation */}
         <div>
           <h3 className="mb-2 font-semibold">Navigation</h3>
-          <ul className="grid grid-cols-2 space-y-1 text-sm md:grid-cols-4 ">
+          <ul className="space-y-4 text-sm md:grid-cols-4 ">
             <li>
-              <Link to="/" className="hover:text-green-400">
+              <Link to="/" className="hover:text-slate-400">
                 Home
               </Link>
             </li>
             <li>
-              <Link to="/promo" className="hover:text-green-400">
+              <Link to="/promo" className="hover:text-slate-400">
                 Promo
               </Link>
             </li>
             <li>
-              <Link to="/activity" className="hover:text-green-400">
+              <Link to="/activity" className="hover:text-slate-400">
                 Activity
               </Link>
             </li>
             <li>
-              <Link to="/category" className="hover:text-green-400">
+              <Link to="/category" className="hover:text-slate-400">
                 Destination
               </Link>
             </li>

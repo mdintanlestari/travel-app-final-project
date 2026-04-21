@@ -10,7 +10,7 @@ function RegisterPage() {
     email: "",
     password: "",
     repeatPassword: "",
-    role: "admin",
+    role: "",
     phoneNumber: "",
   });
   const [success, setSuccess] = useState("");
@@ -63,7 +63,7 @@ function RegisterPage() {
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
             "Content-Type": "application/json",
           },
-        }
+        },
       );
       setSuccess("Register Success!!");
       localStorage.setItem("token", response.data.token);
@@ -151,8 +151,11 @@ function RegisterPage() {
               name="role"
               value={formData.role}
               onChange={handleChange}
-              className="h-10 px-4 rounded-md w-28"
+              className="h-10 px-4 rounded-md w-full"
             >
+              <option value="" disabled className="text-slate-300">
+                Select...
+              </option>
               <option value="admin" className="rounded-md">
                 Admin
               </option>
@@ -173,7 +176,7 @@ function RegisterPage() {
               Already have an account?{" "}
               <a
                 href="/login"
-                className="text-blue-700 underline hover:text-blue-900"
+                className="text-blue-700 hover:underline hover:text-blue-900"
               >
                 Login
               </a>

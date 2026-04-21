@@ -15,6 +15,7 @@ const Navbar = () => {
   const [user, setUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScroll, setIsScroll] = useState(false);
   const { cartCount } = useCart();
   const navigate = useNavigate();
 
@@ -39,7 +40,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      toast.error("Token tidak ditemukan. Silakan login ulang.");
+      toast.error("Session expired. Please log in again.");
       return;
     }
 
@@ -51,24 +52,208 @@ const Navbar = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-      toast.success("Berhasil logout");
+      toast.success("Successfully logged out");
       navigate("/");
       window.location.reload();
     } catch {
-      toast.error("Gagal logout");
+      toast.error("Failed logout");
     }
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScroll(true);
+      } else {
+        setIsScroll(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <nav className="fixed top-0 left-0 z-50 w-full p-4 bg-white shadow-md">
+    <nav
+      className={`fixed top-0 left-0 z-50 w-full p-4 transition-all duration-300  
+        ${isScroll ? "bg-white md:bg-white/60" : "bg-slate-100"}`}
+    >
       <div className="flex items-center justify-between mx-auto max-w-7xl">
-        <Link to="/" className="text-xl font-bold text-green-600">
+        <Link to="/" className="text-xl  font-bold text-slate-600">
           Travel<span className="text-black">World</span>
         </Link>
+
+        {/* Menu List */}
+        <ul
+          className={`md:flex gap-10 md:items-center md:space-x-6 absolute md:static
+             top-16 left-0 w-full md:w-auto p-4 md:p-0  bg-slate-50 md:bg-transparent
+             shadow-md md:shadow-none z-40 ${
+               isMenuOpen ? "block " : "hidden md:flex"
+             }`}
+        >
+          <li>
+            <Link
+              to="/"
+              className="block py-2 hover:text-slate-300  md:hover:border-b hover:border-slate-400"
+            >
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/category"
+              className="block py-2 hover:text-slate-300 md:hover:border-b md:hover:border-slate-400"
+            >
+              Destination
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/promo"
+              className="block py-2 hover:text-slate-300 md:hover:border-b md:hover:border-slate-400"
+            >
+              Promo
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/activity"
+              className="block py-2 hover:text-slate-300 md:hover:border-b md:hover:border-slate-400"
+            >
+              Activity
+            </Link>
+          </li>
+
+          {/* register login */}
+          {!isLoggedIn && (
+            <div className="md:flex md:gap-9 ">
+              <li className=" md:rounded-md md:bg-slate-400 hover:text-slate-300 md:hover:bg-slate-200 mb-2 md:mb-0 md:px-6 md:py-1 md:border ">
+                <Link to="/register" className="block py-2 ">
+                  Register
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/login"
+                  className="block md:py-3 md:bg-slate-200 hover:text-slate-300 md:hover:bg-slate-400 md:rounded-md md:border md:px-8  "
+                >
+                  Login
+                </Link>
+              </li>
+            </div>
+          )}
+        </ul>
+
+        {isLoggedIn && user?.role === "user" && (
+          <li className="relative block py-2">
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="px-3 py-1 text-sm bg-white border rounded hover:bg-gray-100"
+            >
+              {user?.name ? `Hi, ${user.name.split(" ")[0]}` : "User"}
+            </button>
+
+            {isDropdownOpen && (
+              <div className="absolute right-0 z-50 w-48 mt-2 bg-white border rounded shadow-md">
+                <button
+                  onClick={() => {
+                    navigate("/profile");
+                    setIsDropdownOpen(false);
+                    setIsMenuOpen(false);
+                  }}
+                  className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100"
+                >
+                  Profile
+                </button>
+                <button
+                  onClick={() => {
+                    navigate("/mytransactions");
+                    setIsDropdownOpen(false);
+                    setIsMenuOpen(false);
+                  }}
+                  className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100"
+                >
+                  My Transactions
+                </button>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setIsDropdownOpen(false);
+                    setIsMenuOpen(false);
+                  }}
+                  className="block w-full px-4 py-2 text-sm text-left text-red-500 hover:bg-gray-100"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </li>
+        )}
+
+        {/* ADMIN */}
+        {isLoggedIn && user?.role === "admin" && (
+          <li className="relative block py-2">
+            <button
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="px-3 py-1 text-sm bg-white border rounded hover:bg-gray-100"
+            >
+              {user?.name ? `Hi, ${user.name.split(" ")[0]}` : "User"}
+            </button>
+
+            {isDropdownOpen && (
+              <div className="absolute right-0 z-50 w-48 mt-2 bg-white border rounded shadow-md">
+                <button
+                  onClick={() => {
+                    navigate("/profile");
+                    setIsDropdownOpen(false);
+                    setIsMenuOpen(false);
+                  }}
+                  className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100"
+                >
+                  Profile
+                </button>
+
+                <button
+                  onClick={() => {
+                    navigate("/admin");
+                    setIsDropdownOpen(false);
+                    setIsMenuOpen(false);
+                  }}
+                  className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100"
+                >
+                  Dashboard
+                </button>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setIsDropdownOpen(false);
+                    setIsMenuOpen(false);
+                  }}
+                  className="block w-full px-4 py-2 text-sm text-left text-red-500 hover:bg-gray-100"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </li>
+        )}
+        {/* Cart */}
+        {user?.role !== "admin" && (
+          <Link
+            to="/cart"
+            className=" relative block py-2  hover:text-slate-400"
+          >
+            <FontAwesomeIcon icon={faCartShopping} />
+            {cartCount > 0 && (
+              <span className="absolute top-0 flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full -right-2">
+                {cartCount}
+              </span>
+            )}
+          </Link>
+        )}
 
         {/* Hamburger Button */}
         <button
@@ -77,168 +262,6 @@ const Navbar = () => {
         >
           <FontAwesomeIcon icon={isMenuOpen ? faTimes : faBars} />
         </button>
-
-        {/* Menu List */}
-        <ul
-          className={`md:flex md:items-center md:space-x-6 absolute md:static top-16 left-0 w-full md:w-auto bg-white md:bg-transparent p-4 md:p-0 transition-all duration-300 shadow-md md:shadow-none z-40 ${
-            isMenuOpen ? "block" : "hidden md:flex"
-          }`}
-        >
-          <li>
-            <Link to="/" className="block py-2 hover:text-green-600">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/category" className="block py-2 hover:text-green-600">
-              Destination
-            </Link>
-          </li>
-          <li>
-            <Link to="/promo" className="block py-2 hover:text-green-600">
-              Promo
-            </Link>
-          </li>
-          <li>
-            <Link to="/activity" className="block py-2 hover:text-green-600">
-              Activity
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/cart"
-              className="relative block py-2 hover:text-green-600"
-            >
-              <FontAwesomeIcon icon={faCartShopping} />
-              {cartCount > 0 && (
-                <span className="absolute top-0 flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full -right-2">
-                  {cartCount}
-                </span>
-              )}
-            </Link>
-          </li>
-
-          {!isLoggedIn && (
-            <>
-              <li>
-                <Link
-                  to="/register"
-                  className="block py-2 hover:text-green-600"
-                >
-                  Register
-                </Link>
-              </li>
-              <li>
-                <Link to="/login" className="block py-2 hover:text-green-600">
-                  Login
-                </Link>
-              </li>
-            </>
-          )}
-
-          {isLoggedIn && user?.role === "user" && (
-            <li className="relative block py-2">
-              <button
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="px-3 py-1 text-sm bg-white border rounded hover:bg-gray-100"
-              >
-                {user?.name ? `Hi, ${user.name.split(" ")[0]}` : "User"}
-              </button>
-
-              {isDropdownOpen && (
-                <div className="absolute right-0 z-50 w-48 mt-2 bg-white border rounded shadow-md">
-                  <button
-                    onClick={() => {
-                      navigate("/profile");
-                      setIsDropdownOpen(false);
-                      setIsMenuOpen(false);
-                    }}
-                    className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100"
-                  >
-                    Profile
-                  </button>
-                  <button
-                    onClick={() => {
-                      navigate("/mytransactions");
-                      setIsDropdownOpen(false);
-                      setIsMenuOpen(false);
-                    }}
-                    className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100"
-                  >
-                    My Transactions
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleLogout();
-                      setIsDropdownOpen(false);
-                      setIsMenuOpen(false);
-                    }}
-                    className="block w-full px-4 py-2 text-sm text-left text-red-500 hover:bg-gray-100"
-                  >
-                    Logout
-                  </button>
-                </div>
-              )}
-            </li>
-          )}
-
-          {/* ADMIN */}
-          {isLoggedIn && user?.role === "admin" && (
-            <li className="relative block py-2">
-              <button
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="px-3 py-1 text-sm bg-white border rounded hover:bg-gray-100"
-              >
-                {user?.name ? `Hi, ${user.name.split(" ")[0]}` : "User"}
-              </button>
-
-              {isDropdownOpen && (
-                <div className="absolute right-0 z-50 w-48 mt-2 bg-white border rounded shadow-md">
-                  <button
-                    onClick={() => {
-                      navigate("/profile");
-                      setIsDropdownOpen(false);
-                      setIsMenuOpen(false);
-                    }}
-                    className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100"
-                  >
-                    Profile
-                  </button>
-                  <button
-                    onClick={() => {
-                      navigate("/mytransactions");
-                      setIsDropdownOpen(false);
-                      setIsMenuOpen(false);
-                    }}
-                    className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100"
-                  >
-                    My Transactions
-                  </button>
-                  <button
-                    onClick={() => {
-                      navigate("/admin");
-                      setIsDropdownOpen(false);
-                      setIsMenuOpen(false);
-                    }}
-                    className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100"
-                  >
-                    Dashboard
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleLogout();
-                      setIsDropdownOpen(false);
-                      setIsMenuOpen(false);
-                    }}
-                    className="block w-full px-4 py-2 text-sm text-left text-red-500 hover:bg-gray-100"
-                  >
-                    Logout
-                  </button>
-                </div>
-              )}
-            </li>
-          )}
-        </ul>
       </div>
     </nav>
   );

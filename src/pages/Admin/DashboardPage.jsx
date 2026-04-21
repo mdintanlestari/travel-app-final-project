@@ -16,12 +16,12 @@ function DashboardPage() {
     <div className="min-h-screen bg-gray-100">
       <div className="flex">
         {/* Sidebar */}
-        <aside className="w-64 min-h-screen px-4 py-6 bg-green-900 border-r shadow-sm">
+        <aside className="w-64 min-h-screen px-4 py-6 bg-slate-500 border-r shadow-sm">
           <h2 className="mb-6 text-xl font-semibold text-center text-white">
             Admin Panel
           </h2>
           <nav className="flex flex-col space-y-3 ">
-            <SidebarLink to="/admin" label="Dashboard" />
+            <SidebarLink to="/admin/managedashboard" label="Dashboard" />
             <SidebarLink to="/admin/manageusers" label="Manage User" />
             <SidebarLink to="/admin/managebanner" label="Manage Banner" />
             <SidebarLink to="/admin/managepromo" label="Manage Promo" />
@@ -31,7 +31,7 @@ function DashboardPage() {
               to="/admin/managetransactions"
               label="Manage Transactions"
             />
-            <SidebarLink to="/" label="Home" />
+            <SidebarLink to="/updateprofile" label="Update Profile" />
           </nav>
 
           <div className="mt-10">

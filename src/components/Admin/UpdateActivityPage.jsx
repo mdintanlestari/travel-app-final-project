@@ -35,7 +35,7 @@ const UpdateActivity = () => {
               Authorization: `Bearer ${token}`,
               apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
             },
-          }
+          },
         );
 
         const data = res.data.data;
@@ -44,7 +44,7 @@ const UpdateActivity = () => {
           imageUrls: data.imageUrls,
         });
       } catch (err) {
-        toast.error("Gagal mengambil data activity");
+        toast.error("Failed to load activity data");
         console.error(err);
       }
     };
@@ -86,14 +86,14 @@ const UpdateActivity = () => {
             Authorization: `bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
-      toast.success("Activity berhasil diupdate");
+      toast.success("Activity updated successfully");
       setTimeout(() => {
         navigate("/admin/manageactivity");
       });
     } catch (err) {
-      toast.error("Gagal update activity:" + err.response.data.message);
+      toast.error("Failed to update activity:" + err.response.data.message);
       console.error(err);
     }
   };
@@ -109,64 +109,64 @@ const UpdateActivity = () => {
         </h2>
 
         <div className="mb-4">
-          <label className="block mb-1 font-medium">Nama Aktivitas</label>
+          <label className="block mb-1 font-medium">Activity Name</label>
           <input
             type="text"
             name="title"
             value={formData.title}
             onChange={handleChange}
-            placeholder="Masukkan nama aktivitas"
+            placeholder="Add Activity Name"
             className="w-full p-2 border rounded"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label className="block mb-1 font-medium">Deskripsi</label>
+          <label className="block mb-1 font-medium">Description</label>
           <textarea
             name="description"
             value={formData.description}
             onChange={handleChange}
-            placeholder="Masukkan deskripsi"
+            placeholder="Add description"
             className="w-full p-2 border rounded"
             required
           ></textarea>
         </div>
 
         <div className="mb-4">
-          <label className="block mb-1 font-medium">URL Gambar</label>
+          <label className="block mb-1 font-medium">Image URL</label>
           <input
             type="text"
             name="imageUrls"
             value={formData.imageUrls}
             onChange={handleChangeImageUrl}
-            placeholder="Url Gambar"
+            placeholder="Image Url"
             className="w-full p-2 border rounded"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label className="block mb-1 font-medium">Harga</label>
+          <label className="block mb-1 font-medium">Price</label>
           <input
             type="text"
             name="price"
             value={formData.price}
             onChange={handleChange}
-            placeholder="Masukkan harga"
+            placeholder="Add Price"
             className="w-full p-2 border rounded"
             required
           />
         </div>
 
         <div className="mb-4">
-          <label className="block mb-1 font-medium">Harga Diskon</label>
+          <label className="block mb-1 font-medium">Discount Price</label>
           <input
             type="text"
             name="price_discount"
             value={formData.price_discount}
             onChange={handleChange}
-            placeholder="Masukkan diskon"
+            placeholder="Add Discount"
             className="w-full p-2 border rounded"
             required
           />
@@ -192,80 +192,82 @@ const UpdateActivity = () => {
             name="total_reviews"
             value={formData.total_reviews}
             onChange={handleChange}
-            placeholder="Masukkan reviews"
+            placeholder="Add reviews"
             className="w-full p-2 border rounded"
             required
           />
         </div>
         <div className="mb-6">
-          <label className="block mb-1 font-medium">Fasilitas</label>
+          <label className="block mb-1 font-medium">Facilities</label>
           <input
             type="text"
             name="facilities"
             value={formData.facilities}
             onChange={handleChange}
-            placeholder="Masukkan fasilitas"
+            placeholder="Add Faciliities"
             className="w-full p-2 border rounded"
             required
           />
         </div>
         <div className="mb-6">
-          <label className="block mb-1 font-medium">Alamat</label>
+          <label className="block mb-1 font-medium">Address</label>
           <input
             type="text"
             name="address"
             value={formData.address}
             onChange={handleChange}
-            placeholder="Masukkan alamat"
+            placeholder="Add Address"
             className="w-full p-2 border rounded"
             required
           />
         </div>
         <div className="mb-6">
-          <label className="block mb-1 font-medium">Provinsi</label>
+          <label className="block mb-1 font-medium">Provience</label>
           <input
             type="text"
             name="province"
             value={formData.province}
             onChange={handleChange}
-            placeholder="Masukkan provinsi"
+            placeholder="Add Provience"
             className="w-full p-2 border rounded"
             required
           />
         </div>
         <div className="mb-6">
-          <label className="block mb-1 font-medium">Kota</label>
+          <label className="block mb-1 font-medium">City</label>
           <input
             type="text"
             name="city"
             value={formData.city}
             onChange={handleChange}
-            placeholder="Masukkan kota"
+            placeholder="Add City"
             className="w-full p-2 border rounded"
             required
           />
         </div>
         {/* LOCATION MAPS */}
         <div className="mb-4">
-          <label className="block mb-1 font-medium">Lokasi (Google Maps)</label>
+          <label className="block mb-1 font-medium">
+            Location (Google Maps)
+          </label>
           <input
             type="text"
             name="location_maps"
             value={formData.location_maps}
             onChange={handleChange}
-            placeholder="Masukkan nama tempat / lokasi"
+            placeholder="Enter Location Name"
             className="w-full p-2 border rounded"
           />
         </div>
 
         <div className="mb-6">
-          <label className="block mb-1 font-medium">Id kategory</label>
+          <label className="block mb-1 font-medium">Id Category</label>
           <input
             type="text"
             name="categoryId"
             value={formData.categoryId}
             onChange={handleChange}
-            placeholder="Masukkan id kategory"
+            placeholder="Add id category"
             className="w-full p-2 border rounded"
             required
           />
@@ -275,7 +277,7 @@ const UpdateActivity = () => {
           type="submit"
           className="w-full py-2 font-semibold text-white bg-blue-600 rounded hover:bg-blue-700"
         >
-          Buat Activity
+          Create Activity
         </button>
       </form>
     </div>

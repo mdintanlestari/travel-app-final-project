@@ -42,7 +42,7 @@ function LoginPage() {
           headers: {
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       const token = response.data.token;
       localStorage.setItem("token", token);
@@ -55,7 +55,7 @@ function LoginPage() {
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
       const role = profileResponse.data.data.role;
       localStorage.setItem("role", role);
@@ -137,6 +137,17 @@ function LoginPage() {
           >
             Login
           </button>
+          <div>
+            <p className="mt-2 text-sm text-center">
+              Already have an account?{" "}
+              <a
+                href="/register"
+                className="text-blue-700 hover:underline hover:text-blue-900"
+              >
+                Register
+              </a>
+            </p>
+          </div>
         </form>
       </div>
     </div>

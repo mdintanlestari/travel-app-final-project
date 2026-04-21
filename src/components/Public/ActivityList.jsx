@@ -12,12 +12,12 @@ const ActivityList = () => {
 
   // pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemPerPage = 5;
+  const itemPerPage = 6;
   const indexOfLastItem = currentPage * itemPerPage;
   const indexOfFirtsItem = indexOfLastItem - itemPerPage;
   const currentItem = filteredActivities.slice(
     indexOfFirtsItem,
-    indexOfLastItem
+    indexOfLastItem,
   );
   const totalPages = Math.ceil(filteredActivities.length / itemPerPage);
 
@@ -26,7 +26,7 @@ const ActivityList = () => {
   useEffect(() => {
     fetchCategories();
     fetchActivity();
-  }, []);
+  });
 
   const fetchActivity = async () => {
     try {
@@ -37,12 +37,12 @@ const ActivityList = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       setActivities(res.data.data);
       setFilteredActivities(res.data.data);
     } catch (err) {
-      console.error("Gagal memuat aktivitas:", err);
+      console.error("Failed to load activities:", err);
     }
   };
 
@@ -55,11 +55,11 @@ const ActivityList = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       setCategories(res.data.data);
     } catch (err) {
-      console.error("Gagal memuat kategori:", err);
+      console.error("Failed to load categories:", err);
     }
   };
 
@@ -72,13 +72,13 @@ const ActivityList = () => {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
-        }
+        },
       );
       setActivities(res.data.data);
       setFilteredActivities(res.data.data);
       setSearchTerm("");
     } catch (err) {
-      console.error("Gagal memuat aktivitas:", err);
+      console.error("Failed to load activities:", err);
     }
   };
 
@@ -86,7 +86,7 @@ const ActivityList = () => {
     const keyword = e.target.value.toLowerCase();
     setSearchTerm(keyword);
     const filtered = activities.filter((item) =>
-      item.title.toLowerCase().includes(keyword)
+      item.title.toLowerCase().includes(keyword),
     );
     setFilteredActivities(filtered);
     setCurrentPage(1);
@@ -98,14 +98,14 @@ const ActivityList = () => {
         <Navbar />
         <div className="max-w-6xl p-6 mx-auto mt-20">
           <h2 className="mb-6 text-3xl font-bold text-center">
-            Daftar Aktivitas
+            Activities List
           </h2>
 
           {/* Search Bar */}
           <div className="flex items-end justify-end mb-4 mt-14">
             <input
               type="text"
-              placeholder="Cari aktivitas..."
+              placeholder="Find activities..."
               className="w-[60vh] px-4 py-2 border border-black rounded  shadow-sm"
               value={searchTerm}
               onChange={handleSearch}
@@ -116,7 +116,7 @@ const ActivityList = () => {
           <div className="mb-4">
             <h3 className="mb-2 font-semibold">Filter by Category:</h3>
             <select
-              className="px-4 py-2 border rounded"
+              className="px-4 py-2 border rounded transition-all duration-150 focus:ring-2 focus:ring-blue-400 focus:outline-none"
               onChange={(e) => {
                 const selectedCategoryId = e.target.value;
                 if (selectedCategoryId === "") {
@@ -138,14 +138,14 @@ const ActivityList = () => {
           {/* Activity Grid */}
           {currentItem.length === 0 ? (
             <p className="mt-8 text-center text-gray-500">
-              Aktivitas yang dicari tidak tersedia.
+              No matching activities found.
             </p>
           ) : (
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
               {currentItem.map((activity) => (
                 <div
                   key={activity.id}
-                  className="overflow-hidden transition bg-white rounded shadow hover:shadow-md"
+                  className="overflow-hidden transition-all hover:-translate-y-2 duration-300 bg-white rounded shadow hover:shadow-md"
                 >
                   <Link to={`/detailactivity/${activity.id}`}>
                     {activity.imageUrls?.[0] && (
@@ -172,7 +172,7 @@ const ActivityList = () => {
                       to={`/detailactivity/${activity.id}`}
                       className="text-sm text-blue-600 hover:underline"
                     >
-                      Lihat Detail
+                      See Detail
                     </Link>
                   </div>
                 </div>
@@ -185,7 +185,7 @@ const ActivityList = () => {
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-900 disabled:opacity-50"
+            className="px-4 py-2 text-white bg-slate-600 rounded hover:bg-slate-900 disabled:opacity-50 cursor-pointer"
           >
             Prev
           </button>
@@ -197,7 +197,7 @@ const ActivityList = () => {
               setCurrentPage((prev) => (prev < totalPages ? prev + 1 : prev))
             }
             disabled={currentPage === totalPages}
-            className="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-900 disabled:opacity-50"
+            className="px-4 py-2 text-white bg-slate-600 rounded hover:bg-slate-900 disabled:opacity-50 cursor-pointer"
           >
             Next
           </button>
