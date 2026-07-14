@@ -170,7 +170,7 @@ const ActivityList = () => {
                     </p>
                     <Link
                       to={`/detailactivity/${activity.id}`}
-                      className="text-sm text-blue-600 hover:underline"
+                      className="text-sm text-white hover:bg-slate-600 mt-4 flex items-center justify-center rounded-xl bg-slate-400 p-2"
                     >
                       See Detail
                     </Link>

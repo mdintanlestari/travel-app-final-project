@@ -39,7 +39,7 @@ const AddToCartButton = ({ activityId }) => {
   return (
     <button
       onClick={handleClick}
-      className="px-4 py-2 mt-4 text-white bg-green-500 rounded hover:bg-green-600"
+      className="px-4 py-2 mt-4 text-white bg-slate-500 rounded hover:bg-slate-600"
     >
       Add to Cart
     </button>

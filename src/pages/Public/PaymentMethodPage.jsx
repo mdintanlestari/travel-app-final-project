@@ -13,8 +13,9 @@ const PaymentMethodPage = () => {
         {
           headers: {
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+            Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
       setMethods(res.data.data);
     } catch (err) {

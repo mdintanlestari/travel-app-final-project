@@ -98,7 +98,7 @@ const CategoryList = () => {
                   <p className="mb-2 text-lg font-semibold">{category.name}</p>
                   <Link
                     to={`/detailcategory/${category.id}`}
-                    className="text-sm text-blue-600 hover:underline"
+                    className="text-sm text-white hover:bg-slate-600 flex items-center justify-center rounded-xl bg-slate-400 p-2"
                   >
                     See Detail
                   </Link>

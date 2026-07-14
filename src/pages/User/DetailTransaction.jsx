@@ -1,9 +1,9 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Navbar from "../../components/Navbar";
 import UploadImage from "../../components/UploadImage";
+import Swal from "sweetalert2";
 
 const DetailTransaction = () => {
   const { id } = useParams();
@@ -16,18 +16,25 @@ const DetailTransaction = () => {
   const handleImageUpload = async (url) => {
     setImageUrl(url);
     try {
-      await axios.post(
+      await fetch(
         `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/update-transaction-proof-payment/${id}`,
-        { proofPaymentUrl: url },
         {
+          method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
+          credentials: "include",
+          // body: JSON.stringify({
+          //   proofPaymentUrl: url,
+          // }),
+          body: new FormData(),
         },
       );
       toast.success("Bukti pembayaran berhasil dikirim!");
-      navigate("/mytransactions");
+      // await fetchDetailTransaction();
+
+      // navigate("/mytransactions");
     } catch (err) {
       console.error("Gagal kirim bukti pembayaran", err);
       toast.error("Upload ke API gagal");
@@ -36,40 +43,76 @@ const DetailTransaction = () => {
 
   const fetchDetailTransaction = async () => {
     try {
-      const res = await axios.get(
+      // const res = await axios.get(
+      //   `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/transaction/${id}`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //       apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+      //     },
+      //   },
+      // );
+      await fetch(
         `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/transaction/${id}`,
         {
+          method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
         },
-      );
-      setTransaction(res.data.data);
+      )
+        .then((response) => {
+          console.log("Received response:", response);
+          return response.json();
+        })
+        .then((data) => {
+          console.log("data", data);
+          setTransaction(data.data);
+          console.log("data", data.data);
+        });
     } catch (err) {
       console.error("Gagal mengambil data transaksi", err);
     }
   };
 
   const handleCancelTransaction = async (id) => {
-    const confirmCancel = window.confirm(
-      "Yakin ingin membatalkan transaksi ini?",
-    );
-    if (!confirmCancel) return;
+    const confirmCancel = await Swal.fire({
+      title: "yakin ingin membatalkan transaksi ini?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "ya batalkan",
+      confirmButtonColor: "grey",
+      cancelButtonText: "tidak",
+    });
+
+    if (!confirmCancel.isConfirmed) return;
 
     try {
-      await axios.post(
+      // await axios.post(
+      //   `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/cancel-transaction/${id}`,
+      //   {},
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //       apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+      //     },
+      //   },
+      // );
+
+      await fetch(
         `https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/cancel-transaction/${id}`,
-        {},
         {
+          method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
           },
+          credentials: "include",
         },
       );
       toast.success("Transaksi berhasil dibatalkan");
-      fetchDetailTransaction(); // refresh data setelah cancel
+      await fetchDetailTransaction();
       navigate("/mytransactions");
     } catch (err) {
       console.error("Gagal membatalkan transaksi", err);

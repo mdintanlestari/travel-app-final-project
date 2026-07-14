@@ -20,7 +20,7 @@ const MyProfile = () => {
               Authorization: `Bearer ${token}`,
               apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
             },
-          }
+          },
         );
         const data = response.data.data;
         console.log(data);
@@ -28,7 +28,7 @@ const MyProfile = () => {
       } catch (error) {
         console.log(
           "Gagal ambil data user:",
-          error.response.data || error.message
+          error.response.data || error.message,
         );
       }
     };

@@ -28,7 +28,6 @@ const UploadProofPayment = () => {
           headers: {
             Authorization: `Bearer ${token}`,
             apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-            "Content-Type": "multipart/form-data",
           },
         },
       );

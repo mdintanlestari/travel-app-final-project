@@ -5,6 +5,7 @@ import Navbar from "../../components/Navbar";
 
 const TransactionList = () => {
   const [transactions, setTransaction] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const token = localStorage.getItem("token");
 
@@ -18,33 +19,43 @@ const TransactionList = () => {
     indexOfLastItem,
   );
 
-  const fetchTransactions = async () => {
-    try {
-      const res = await axios.get(
-        "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/my-transactions",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
-          },
-        },
-      );
-
-      const sorted = res.data.data.sort(
-        (a, b) => new Date(b.orderDate) - new Date(a.orderDate),
-      );
-
-      setTransaction(sorted);
-    } catch (err) {
-      console.error("Gagal mengambil transaksi", err);
-    }
-  };
-
   useEffect(() => {
-    fetchTransactions();
-  }, []);
+    const fetchTransactions = async () => {
+      try {
+        const res = await axios.get(
+          "https://travel-journal-api-bootcamp.do.dibimbing.id/api/v1/my-transactions",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              apiKey: "24405e01-fbc1-45a5-9f5a-be13afcd757c",
+            },
+          },
+        );
 
-  if (transactions.length === 0) {
+        const sorted = res.data.data.sort(
+          (a, b) => new Date(b.orderDate) - new Date(a.orderDate),
+        );
+
+        setTransaction(sorted);
+      } catch (err) {
+        console.error("Gagal mengambil transaksi", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (token) {
+      fetchTransactions();
+    }
+  }, [token]);
+
+  if (loading) {
+    return (
+      <p className="mt-10 text-center text-gray-500">Loading Transaction...</p>
+    );
+  }
+
+  if (!loading && transactions.length === 0) {
     return (
       <p className="mt-10 text-center text-gray-500">
         You don’t have any transactions yet.
@@ -61,6 +72,7 @@ const TransactionList = () => {
           {currentTransactions.map((trx) => {
             console.log("isi transaksi", trx);
             console.log("items:", trx.transaction_items);
+            console.log("PROOF IMAGE:", trx.proofPaymentUrl);
 
             return (
               <li key={trx.id} className="p-6 bg-white shadow-md rounded-xl">
@@ -92,22 +104,24 @@ const TransactionList = () => {
                       Payment Method:
                     </p>
                     <p>
-                      <strong>Metode:</strong> {trx.payment_method.name}
+                      <strong>Metode:</strong> {trx.payment_method?.name}
                     </p>
                     <p>
                       <strong>VA Number:</strong>{" "}
-                      {trx.payment_method.virtual_account_number}
+                      {trx.payment_method?.virtual_account_number}
                     </p>{" "}
                     <strong>Transfer Proof</strong>
-                    <img
-                      src={trx.proofPaymentUrl}
-                      className="w-[40vh] h-[30vh] mt-5"
-                    />
+                    {trx.proofPaymentUrl && (
+                      <img
+                        src={trx.proofPaymentUrl}
+                        className="w-[50vh] h-[50vh] mt-5"
+                      />
+                    )}
                   </div>
                 </div>
 
                 {/* Items */}
-                <div className="-mt-24">
+                <div>
                   <p className="mb-2 text-lg font-semibold">Items Purchased</p>
                   <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
                     {trx.transaction_items?.map((item) => (
@@ -115,11 +129,13 @@ const TransactionList = () => {
                         key={item.id}
                         className="flex items-start gap-3 p-3 rounded-lg bg-gray-50"
                       >
-                        <img
-                          src={item.imageUrls?.[0] ?? ""}
-                          alt={item.title}
-                          className="object-cover w-24 h-24 rounded-md"
-                        />
+                        {item.imageUrls?.[0] && (
+                          <img
+                            src={item.imageUrls[0]}
+                            alt={item.title}
+                            className="object-cover w-24 h-24 rounded-md"
+                          />
+                        )}
                         <div>
                           <p className="font-medium">{item.title}</p>
                           <p>Quantity: {item.quantity}</p>
@@ -143,7 +159,7 @@ const TransactionList = () => {
           Prev
         </button>
         <span className="px-4 py-2">
-          {currentPage} / {itemPerPage}
+          {currentPage} / {Math.ceil(transactions.length / itemPerPage)}
         </span>
         <button
           onClick={() =>
